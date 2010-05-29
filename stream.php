@@ -62,7 +62,7 @@ if (strpos($urlg, "akm") !== false) {
 }
         
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "192.168.1.149/dev2/timer.php?session=".$sessionid."&key=".$streamKey."&serverid=".$serverID);
+curl_setopt($ch, CURLOPT_URL, "http://".$_SERVER['HTTP_HOST']."/timer.php?session=".$sessionid."&key=".$streamKey."&serverid=".$serverID);
 curl_setopt($ch, CURLOPT_HEADER, 0);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_TIMEOUT, 1);
