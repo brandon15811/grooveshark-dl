@@ -1,5 +1,5 @@
 <?php
-session_start();
+#session_start();
 include "newexec.php";
 header('Content-Type: audio/mpeg');
 if (!function_exists('http_parse_headers')) {
