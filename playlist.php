@@ -17,9 +17,9 @@
 
 <!-- End 1FreeCounter.com code -->
 <?php
-session_start();
+#session_start();
 include 'exec.php';
-include "notice.html";
+#include "notice.html";
 #$session = $_SESSION['sessionid'];
 echo "<br><br>";
 $listdata = playlist($_GET['playlist']);

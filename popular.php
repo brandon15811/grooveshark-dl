@@ -1,25 +1,63 @@
 <?php
-session_start();
+#ssession_start();
 include 'newexec.php';
-include "notice.html";
-#$session = $_SESSION['sessionid'];
-$populardata = popularGetSongs();
-$songlist = json_decode($populardata, true);
-#echo $songlist[result][Songs][SongName][0];
-echo "<br>";
-foreach($songlist["result"]["songs"] as $val) {
-	#$formmvalue = str_shuffle($val[Name]);
-	#$formvalue = str_replace(" ", "", "$formmvalue");
-	echo "Song:".$val["songName"]."<br><br>".
-	"Artist:".$val["artistName"]."<br><br>";
-	#$streamjson = streamKey($val[SongID]);
-	#$streamdata = json_decode($streamjson, true);
-	#$buttonurl = $streamdata[result][result][streamServer];
-	#$buttonkey = $streamdata[result][result][streamKey];
-	echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
+#include "notice.html";
+if (!isset($_GET["type"])) {
+	$gettype = "songs";
+} else {
+	$gettype = $_GET['type'];
 }
-
-
+#$session = $_SESSION['sessionid'];
+switch($gettype) {
+	case "artists":
+		$popularartistdata = popularGetArtists();
+		$artistlist = json_decode($popularartistdata, true);
+		#echo $songlist[result][Songs][SongName][0];
+		echo "<br>";
+		foreach($artistlist["result"]["songs"] as $val) {
+			#$formmvalue = str_shuffle($val[Name]);
+			#$formvalue = str_replace(" ", "", "$formmvalue");
+			#echo "Song:".$val["songName"]."<br><br>".
+			echo "Artist:".$val["artistName"]."<br><br><br>";
+			#$streamjson = streamKey($val[SongID]);
+			#$streamdata = json_decode($streamjson, true);
+			#$buttonurl = $streamdata[result][result][streamServer];
+			#$buttonkey = $streamdata[result][result][streamKey];
+			#echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
+		}
+	case "albums":
+		$popularalbumdata = popularGetAlbums();
+		$albumlist = json_decode($popularalbumdata, true);
+		#echo $songlist[result][Songs][SongName][0];
+		echo "<br>";
+		foreach($albumlist["result"]["songs"] as $val) {
+			#$formmvalue = str_shuffle($val[Name]);
+			#$formvalue = str_replace(" ", "", "$formmvalue");
+			echo "Album:".$val["albumName"]."<br><br>".
+			"Artist:".$val["artistName"]."<br><br><br>";
+			#$streamjson = streamKey($val[SongID]);
+			#$streamdata = json_decode($streamjson, true);
+			#$buttonurl = $streamdata[result][result][streamServer];
+			#$buttonkey = $streamdata[result][result][streamKey];
+			#echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
+		}
+	default:
+		$popularsongdata = popularGetSongs();
+		$songlist = json_decode($popularsongdata, true);
+		#echo $songlist[result][Songs][SongName][0];
+		echo "<br>";
+		foreach($songlist["result"]["songs"] as $val) {
+			#$formmvalue = str_shuffle($val[Name]);
+			#$formvalue = str_replace(" ", "", "$formmvalue");
+			echo "Song:".$val["songName"]."<br><br>".
+			"Artist:".$val["artistName"]."<br><br>";
+			#$streamjson = streamKey($val[SongID]);
+			#$streamdata = json_decode($streamjson, true);
+			#$buttonurl = $streamdata[result][result][streamServer];
+			#$buttonkey = $streamdata[result][result][streamKey];
+			echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
+		}
+	}
 
 ?>
 <!-- Start 1FreeCounter.com code -->

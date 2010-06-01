@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "notice.html";
+#include "notice.html";
 ?>
 <br><br>
 <form name="input" action="search.php" method="get"> Search: <input type="text" name="name" />
