@@ -14,12 +14,7 @@ if (!isset($_SESSION['sessionid'])) {
 $sessionjson = $_SESSION['sessionid'];
 $sessionjsona = json_decode($sessionjson, true);
 $sessionid = $sessionjsona["result"]["sessionID"];
-#echo $sessionid;
-/*function callRemote($method, $params = array()) {
- $result = 2 + 2;
- return($result);
-}
-echo callRemote("hello");*/
+
 
 function callRemote($method, $parameters = array())
 {
@@ -181,7 +176,6 @@ function albumGetSongs($artistID)
 	return $songs;
 }
 
-#cho getStreamURL(9685410);
 
 ?>
 

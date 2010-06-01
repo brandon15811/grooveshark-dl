@@ -19,10 +19,6 @@ switch($gettype) {
 			#$formvalue = str_replace(" ", "", "$formmvalue");
 			#echo "Song:".$val["songName"]."<br><br>".
 			echo "Artist:".$val["artistName"]."<br><br><br>";
-			#$streamjson = streamKey($val[SongID]);
-			#$streamdata = json_decode($streamjson, true);
-			#$buttonurl = $streamdata[result][result][streamServer];
-			#$buttonkey = $streamdata[result][result][streamKey];
 			#echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
 		}
 	case "albums":
@@ -35,10 +31,6 @@ switch($gettype) {
 			#$formvalue = str_replace(" ", "", "$formmvalue");
 			echo "Album:".$val["albumName"]."<br><br>".
 			"Artist:".$val["artistName"]."<br><br><br>";
-			#$streamjson = streamKey($val[SongID]);
-			#$streamdata = json_decode($streamjson, true);
-			#$buttonurl = $streamdata[result][result][streamServer];
-			#$buttonkey = $streamdata[result][result][streamKey];
 			#echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
 		}
 	default:
@@ -51,10 +43,6 @@ switch($gettype) {
 			#$formvalue = str_replace(" ", "", "$formmvalue");
 			echo "Song:".$val["songName"]."<br><br>".
 			"Artist:".$val["artistName"]."<br><br>";
-			#$streamjson = streamKey($val[SongID]);
-			#$streamdata = json_decode($streamjson, true);
-			#$buttonurl = $streamdata[result][result][streamServer];
-			#$buttonkey = $streamdata[result][result][streamKey];
 			echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
 		}
 	}
