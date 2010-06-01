@@ -1,7 +1,7 @@
 <?php
-session_start();
+#session_start();
 include 'newexec.php';
-include "notice.html";
+#include "notice.html";
 #$session = $_SESSION['sessionid'];
 echo '<form name="input" action="search.php" method="get"> Search: <input type="text" name="name" /> <input type="submit" value="Search" /> </form> ';
 echo "<br><br>";
