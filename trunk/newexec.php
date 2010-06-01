@@ -1,5 +1,5 @@
 <?php
-#testing stuff
+#tsting stuff
 session_start();
 if (!isset($_SESSION['sessionid'])) {
 	$sessionch = curl_init(); 
