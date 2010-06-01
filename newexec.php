@@ -1,15 +1,19 @@
 <?php
+session_start();
 if (!isset($_SESSION['sessionid'])) {
 	$sessionch = curl_init(); 
 	curl_setopt($sessionch, CURLOPT_URL, "http://www.moovida.com/services/grooveshark/session_start/"); 
 	curl_setopt($sessionch, CURLOPT_RETURNTRANSFER, 1); 
 	$sessionjson = curl_exec($sessionch);
+	#echo "aaaaa";
+	#$sessionjson = "aa";
 	curl_close($sessionch);
+	$_SESSION['sessionid'] = $sessionjson;
 }
-$sessionjson = '{"header":{"sessionID":"e4f4086dbfe63b1489ad6abd912206f9","hostname":"RHL032","serverTime":1275089211},"result":{"sessionID":"e4f4086dbfe63b1489ad6abd912206f9","expireSeconds":604800}}';
+#$sessionjson = '{"header":{"sessionID":"e4f4086dbfe63b1489ad6abd912206f9","hostname":"RHL032","serverTime":1275089211},"result":{"sessionID":"e4f4086dbfe63b1489ad6abd912206f9","expireSeconds":604800}}';
+$sessionjson = $_SESSION['sessionid'];
 $sessionjsona = json_decode($sessionjson, true);
 $sessionid = $sessionjsona["result"]["sessionID"];
-$_SESSION['sessionid'] = $sessionid;
 #echo $sessionid;
 /*function callRemote($method, $params = array()) {
  $result = 2 + 2;

@@ -14,7 +14,7 @@ switch($gettype) {
 		$artistlist = json_decode($popularartistdata, true);
 		#echo $songlist[result][Songs][SongName][0];
 		echo "<br>";
-		foreach($artistlist["result"]["songs"] as $val) {
+		foreach($artistlist["result"]["artists"] as $val) {
 			#$formmvalue = str_shuffle($val[Name]);
 			#$formvalue = str_replace(" ", "", "$formmvalue");
 			#echo "Song:".$val["songName"]."<br><br>".
@@ -30,7 +30,7 @@ switch($gettype) {
 		$albumlist = json_decode($popularalbumdata, true);
 		#echo $songlist[result][Songs][SongName][0];
 		echo "<br>";
-		foreach($albumlist["result"]["songs"] as $val) {
+		foreach($albumlist["result"]["albums"] as $val) {
 			#$formmvalue = str_shuffle($val[Name]);
 			#$formvalue = str_replace(" ", "", "$formmvalue");
 			echo "Album:".$val["albumName"]."<br><br>".
