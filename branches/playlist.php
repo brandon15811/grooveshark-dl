@@ -18,18 +18,18 @@
 <!-- End 1FreeCounter.com code -->
 <?php
 #session_start();
-include 'exec.php';
+include 'newexec.php';
 #include "notice.html";
 echo "<br><br>";
-$listdata = playlist($_GET['playlist']);
+$listdata = playlistGetSongs($_GET['id']);
 $songlist = json_decode($listdata, true);
 #echo $songlist[result][Songs][SongName][0];
-foreach($songlist[result][Songs] as $val) {
-	$formmvalue = str_shuffle($val[Name]);
-	$formvalue = str_replace(" ", "", "$formmvalue");
-    echo "Song:".$val[Name]."<br><br>".
-    "Artist:".$val[ArtistName]."<br><br>";
-	echo "<a href=stream.php?songid=".$val[SongID].">Download</a><br><br><br> ";
-	
-};
+echo "<br>";
+	foreach($songlist["result"]["songs"] as $val) {
+		#$formmvalue = str_shuffle($val[Name]);
+		#$formvalue = str_replace(" ", "", "$formmvalue");
+		echo "Song:".$val["songName"]."<br><br>".
+		"Artist:".$val["artistName"]."<br><br>";
+		echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
+	}
 ?>

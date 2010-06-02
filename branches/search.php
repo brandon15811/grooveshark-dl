@@ -2,18 +2,60 @@
 #session_start();
 include 'newexec.php';
 #include "notice.html";
-echo '<form name="input" action="search.php" method="get"> Search: <input type="text" name="name" /> <input type="submit" value="Search" /> </form> ';
+echo '<form name="input" action="search.php" method="get"> Search: <input type="text" name="name" /> <select name="type">
+<option value="songs" selected="selected">Songs</option>
+<option value="artists">Artists</option>
+<option value="albums">Albums</option>
+</select>
+<input type="submit" value="Search" /> </form> ';
 echo "<br><br>";
 if (isset($_GET['name'])) {
-$searchdata = searchSongs($_GET['name']);
-$songlist = json_decode($searchdata, true);
-#echo $songlist[result][Songs][SongName][0];
-foreach($songlist["result"]["songs"] as $val) {
-    echo "Song:".$val["songName"]."<br><br>".
-    "Artist:".$val["artistName"]."<br><br>";
-	echo "<a href=stream.php?songid=".$val["songID"].">Download</a><br><br><br> ";
+	if (!isset($_GET["type"])) {
+		$gettype = "songs";
+	} else {
+		$gettype = $_GET['type'];
+	}
+	#$session = $_SESSION['sessionid'];
+	switch($gettype) {
+		case "artists":
+			$searchartistdata = searchArtists($_GET['name']);
+			$artistlist = json_decode($searchartistdata, true);
+			#echo $songlist[result][Songs][SongName][0];
+			echo "<br>";
+			foreach($artistlist["result"]["artists"] as $val) {
+				#$formmvalue = str_shuffle($val[Name]);
+				#$formvalue = str_replace(" ", "", "$formmvalue");
+				#echo "Song:".$val["songName"]."<br><br>".
+				echo "Artist:".$val["artistName"]."<br><br><br>";
+				#echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
+			}
+		case "albums":
+			$searchalbumdata = searchAlbums($_GET['name']);
+			$albumlist = json_decode($searchalbumdata, true);
+			#echo $songlist[result][Songs][SongName][0];
+			echo "<br>";
+			foreach($albumlist["result"]["albums"] as $val) {
+				#$formmvalue = str_shuffle($val[Name]);
+				#$formvalue = str_replace(" ", "", "$formmvalue");
+				echo "Album:".$val["albumName"]."<br><br>".
+				"Artist:".$val["artistName"]."<br><br><br>";
+				#echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
+			}
+	default:
+		$searchsongdata = searchSongs($_GET['name']);
+		$songlist = json_decode($searchsongdata, true);
+		#echo $songlist[result][Songs][SongName][0];
+		echo "<br>";
+		foreach($songlist["result"]["songs"] as $val) {
+			#$formmvalue = str_shuffle($val[Name]);
+			#$formvalue = str_replace(" ", "", "$formmvalue");
+			echo "Song:".$val["songName"]."<br><br>".
+			"Artist:".$val["artistName"]."<br><br>";
+			echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
+		}
+	}
+
 }
-                          }
 ?>
 <!-- Start 1FreeCounter.com code -->
   

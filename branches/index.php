@@ -4,13 +4,28 @@ session_start();
 ?>
 <br><br>
 <form name="input" action="search.php" method="get"> Search: <input type="text" name="name" />
+<select name="type">
+<option value="songs" selected="selected">Songs</option>
+<option value="artists">Artists</option>
+<option value="albums">Albums</option>
+</select>
 <input type="submit" value="Search" />
 </form>
 <br>
-<form name="input" action="playlist.php" method="get"> Playlist ID: <input type="text" name="playlist" /> 
+<?php
+#<form name="input" action="playlist.php" method="get"> Playlist ID: <input type="text" name="id" /> 
+if
+
+?>
 <input type="submit" value="Go" /> 
 </form> 
-<a href="popular.php">Popular Songs</a>
+<form name="input" action="popular.php" method="get"> Popular <select name="type">
+<option value="songs" selected="selected">Songs</option>
+<option value="artists">Artists</option>
+<option value="albums">Albums</option>
+</select>
+<input type="submit" value="Go" />
+
 
 <!-- Start 1FreeCounter.com code -->
   

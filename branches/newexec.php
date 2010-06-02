@@ -20,7 +20,7 @@ function callRemote($method, $parameters = array())
 {
 	global $sessionid;
 	$jsonarray = array ( 'header' => array ( 'sessionID' => $sessionid, ), 'method' => $method, 'parameters' => $parameters, );
-	$postjson = str_replace("]", "}", str_replace("[", "{", json_encode($jsonarray)));
+	$postjson = stripslashes(str_replace("]", "}", str_replace("[", "{", json_encode($jsonarray))));
 	#echo $postjson;
 	$url = "http://api.grooveshark.com/ws/1.0/?json";
         $headers = array(
@@ -51,10 +51,12 @@ function getStreamURL($songID)
 // User Functions
 function createUserAuthToken($username, $password)
 {
-	$hashpass = md5($password);
+	$hashpass = $password;
 	$hashpass = $username.$hashpass;
 	$hashpass = md5($hashpass);
-	$authToken = callRemote("session.createUserAuthToken", array('username' => $username, 'hashpass' => $hasspass));
+	$authToken = callRemote("session.createUserAuthToken", array('username' => $username, 'hashpass' => $hashpass));
+	$authToken = json_decode($authToken, true);
+	$authToken = $authToken['result']['token'];
 	return $authToken;
 }
 
@@ -73,20 +75,22 @@ function loginViaAuthToken($token)
 
 function login($username, $password)
 {
-	global $loggedin;
-	if($loggedin) {
+	#global $loggedin;
+	$_SESSION['loggedin'] = false;
+	if($_SESSION['loggedin']) {
 		return $userID;
 	} else {
 		$token = createUserAuthToken($username, $password);
-		$userid = loginViaAuthToken($token);
-		$loggedin = true;
+		$userID = loginViaAuthToken($token);
+		$_SESSION['loggedin'] = true;
 		return $userID;
 	}
 }
 
 function loggedInStatus()
 {
-	return $loggedin;
+	#global $loggedin;
+	return $_SESSION['loggedin'];
 }
 
 
@@ -104,17 +108,20 @@ function userGetFavoriteSongs($userID)
 
 }
 
+// Playlist Functions
 function userGetPlaylists($userID)
 {
-	$playlists = callRemote("remote.getPlaylists", array('userID' => $userID));
-	return $playlists;
+	if($_SESSION['loggedin'])
+	{
+		$playlists = callRemote("remote.getPlaylists", array('userID' => $userID));
+		return $playlists;
+	}
 
 }
 
-// Playlist Functions
 function playlistGetSongs($playlistID)
 {
-	if($loggedIn)
+	if($_SESSION['loggedin'])
 	{
 		$playlist = callRemote("playlist.getSongs", array('playlistID' => $playlistID));
 		return $playlist;
