@@ -55,9 +55,13 @@ function createUserAuthToken($username, $password)
 	$hashpass = $username.$hashpass;
 	$hashpass = md5($hashpass);
 	$authToken = callRemote("session.createUserAuthToken", array('username' => $username, 'hashpass' => $hashpass));
-	$authToken = json_decode($authToken, true);
-	$authToken = $authToken['result']['token'];
-	return $authToken;
+	$authtoken = json_decode($authToken, true);
+	if (isset($authtoken['fault'])) {
+		return $authToken;
+	} else {
+		$authToken = $authtoken['result']['token'];
+		return $authToken;
+	}
 }
 
 function destroyUserAuthToken($token)
@@ -81,9 +85,13 @@ function login($username, $password)
 		return $userID;
 	} else {
 		$token = createUserAuthToken($username, $password);
-		$userID = loginViaAuthToken($token);
-		$_SESSION['loggedin'] = true;
-		return $userID;
+		$tokenj = json_decode($token, true);
+		if (isset($tokenj['fault'])) {
+			return $token;
+		} else {		
+			$userID = loginViaAuthToken($token);
+			return $userID;
+		}
 	}
 }
 
@@ -113,7 +121,7 @@ function userGetPlaylists($userID)
 {
 	if($_SESSION['loggedin'])
 	{
-		$playlists = callRemote("remote.getPlaylists", array('userID' => $userID));
+		$playlists = callRemote("user.getPlaylists", array('userID' => $userID));
 		return $playlists;
 	}
 

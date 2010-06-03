@@ -14,10 +14,12 @@ session_start();
 <br>
 <?php
 #<form name="input" action="playlist.php" method="get"> Playlist ID: <input type="text" name="id" /> 
-if
-
+if (@!$_SESSION['loggedin']) {
+	echo "You must be logged in to see Playlists";
+} else {
+	echo "<a href=playlist.php>Playlists</a><br><br>";
+}
 ?>
-<input type="submit" value="Go" /> 
 </form> 
 <form name="input" action="popular.php" method="get"> Popular <select name="type">
 <option value="songs" selected="selected">Songs</option>
