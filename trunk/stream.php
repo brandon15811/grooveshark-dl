@@ -1,7 +1,11 @@
 <?php
 #session_start();
 include "newexec.php";
-header('Content-Disposition: audio/mpeg; filename=' . $songInfo["result"]["song"]["artistName"]. " - " . $songInfo["result"]["song"]["songName"] . '.mp3');
+if($_GET['dl'] == 1) {
+	header('Content-Disposition: audio/mpeg; filename=' . $songInfo["result"]["song"]["artistName"]. " - " . $songInfo["result"]["song"]["songName"] . '.mp3');
+} else {
+	header('Content-Type: audio/mpeg');
+}
 if (!function_exists('http_parse_headers')) {
 function http_parse_headers( $header )
     {
