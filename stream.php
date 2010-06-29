@@ -1,7 +1,7 @@
 <?php
 #session_start();
 include "newexec.php";
-header('Content-Type: audio/mpeg');
+header('Content-Disposition: audio/mpeg; filename=' . $songInfo["result"]["song"]["artistName"]. " - " . $songInfo["result"]["song"]["songName"] . '.mp3');
 if (!function_exists('http_parse_headers')) {
 function http_parse_headers( $header )
     {
