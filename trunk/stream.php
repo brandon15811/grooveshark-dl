@@ -1,7 +1,8 @@
 <?php
-#session_start();
+session_start();
 include "newexec.php";
 if($_GET['dl'] == 1) {
+	$songInfo = json_decode(getSongInfo($_GET["songid"]), true);
 	header('Content-Disposition: audio/mpeg; filename=' . $songInfo["result"]["song"]["artistName"]. " - " . $songInfo["result"]["song"]["songName"] . '.mp3');
 } else {
 	header('Content-Type: audio/mpeg');
@@ -24,6 +25,8 @@ function http_parse_headers( $header )
         return $retVal;
     }
 }
+//$songInfo = json_decode(getSongInfo($_GET["songid"]), true);
+//echo $songInfo["result"]["song"]["artistName"]. " - " . $songInfo["result"]["song"]["songName"];
 $streamData = json_decode(getStreamURL($_GET["songid"]), true);
 $urlg = $streamData["result"]["url"];
 #echo $urlg;
@@ -58,15 +61,22 @@ if (strpos($urlg, "akm") !== false) {
   curl_close($gh);
   $header = http_parse_headers($myvar);
   $location = $header['Location'];
-  header('Location: '.$location);
+  $lg = curl_init();
+  curl_setopt($lg, CURLOPT_URL, $location);
+  curl_setopt($lg, CURLOPT_TIMEOUT, 60);
+  curl_setopt($lg, CURLOPT_HTTPHEADER, 1);
+  curl_setopt($gh, CURLOPT_RETURNTRANSFER, 1);
+  echo curl_exec($lg);
+  curl_close($lg);
+
 } else {
   #echo "Before curl_exec:".memory_get_usage()."\\\n";
   echo curl_exec($gh);
   curl_close($gh);
 }
-        
+$file1 = str_replace("/stream.php", "", $_SERVER['PHP_SELF']);
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "http://".$_SERVER['HTTP_HOST']."/timer.php?session=".$sessionid."&key=".$streamKey."&serverid=".$serverID);
+curl_setopt($ch, CURLOPT_URL, "http://".$_SERVER['HTTP_HOST'].$file1."/timer.php?session=".$sessionid."&key=".$streamKey."&serverid=".$serverID);
 curl_setopt($ch, CURLOPT_HEADER, 0);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_TIMEOUT, 1);
