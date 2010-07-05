@@ -25,6 +25,7 @@ switch($gettype) {
 			#$buttonkey = $streamdata[result][result][streamKey];
 			#echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
 		}
+		break;
 	case "albums":
 		$popularalbumdata = popularGetAlbums();
 		$albumlist = json_decode($popularalbumdata, true);
@@ -41,6 +42,7 @@ switch($gettype) {
 			#$buttonkey = $streamdata[result][result][streamKey];
 			#echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
 		}
+		break;
 	default:
 		$popularsongdata = popularGetSongs();
 		$songlist = json_decode($popularsongdata, true);
@@ -57,6 +59,7 @@ switch($gettype) {
 			#$buttonkey = $streamdata[result][result][streamKey];
 			echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
 		}
+		break;
 	}
 
 ?>
