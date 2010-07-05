@@ -108,7 +108,7 @@ function userGetFavoriteSongs($userID)
 
 
 }
-
+// Playlist Functions
 function userGetPlaylists($userID)
 {
 	$playlists = callRemote("remote.getPlaylists", array('userID' => $userID));
@@ -116,7 +116,7 @@ function userGetPlaylists($userID)
 
 }
 
-// Playlist Functions
+
 function playlistGetSongs($playlistID)
 {
 	if($loggedIn)

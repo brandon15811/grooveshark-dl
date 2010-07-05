@@ -26,9 +26,9 @@ type="hidden" /></fieldset></form></div>
 		<ul class="pageitem">
 			<li class="menu"><a href="popular.php">
 			<img alt="list" src="thumbs/stocks.png" /><span class="name">Popular</span><span class="arrow"></span></a></li>			
-			<?php /*<li class="bigfield"><br><form action="playlist.php" method="get"><input
+			<!-- <li class="bigfield"><br><form action="playlist.php" method="get"><input
 			id="search" placeholder="Playlist ID" type="text" name="playlist" /><input id="submit"
-			type="hidden" /></form></div></li>*/ ?>
+			type="hidden" /></form></div></li> -->
 		</ul>
 	<span class="graytitle">About</span>
 		<ul class="pageitem">
