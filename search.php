@@ -12,8 +12,10 @@ $songlist = json_decode($searchdata, true);
 foreach($songlist["result"]["songs"] as $val) {
 	#$formmvalue = str_shuffle($val[Name]);
 	#$formvalue = str_replace(" ", "", "$formmvalue");
-    echo "Song:".$val["songName"]."<br><br>".
-    "Artist:".$val["artistName"]."<br><br>";
+    echo "Song:".$val["songName"]."<br>".
+    echo "Artist: <a href=artist.php?artistid=".$val['artistID'].">".$val['artistName']."</a><br>";
+	echo "Album: <a href=album.php?albumid=".$val['albumID'].">".$val['albumName']."</a><br>";
+
 	#$streamjson = streamKey($val[SongID]);
 	#$streamdata = json_decode($streamjson, true);
 	#$buttonurl = $streamdata[result][result][streamServer];
@@ -21,7 +23,7 @@ foreach($songlist["result"]["songs"] as $val) {
 	echo "<a href=stream.php?songid=".$val["songID"].">Download</a><br><br><br> ";
 	#echo "<a href=".$val[SongID].".mp3>Download</a><br><br><br> ";
 }
-                          }
+}
 ?>
 <!-- Start 1FreeCounter.com code -->
   

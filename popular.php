@@ -18,7 +18,7 @@ switch($gettype) {
 			#$formmvalue = str_shuffle($val[Name]);
 			#$formvalue = str_replace(" ", "", "$formmvalue");
 			#echo "Song:".$val["songName"]."<br><br>".
-			echo "Artist:".$val["artistName"]."<br><br><br>";
+			echo "Artist: <a href=artist.php?artistid=".$val['artistID'].">".$val['artistName']."</a><br>";
 			#$streamjson = streamKey($val[SongID]);
 			#$streamdata = json_decode($streamjson, true);
 			#$buttonurl = $streamdata[result][result][streamServer];
@@ -34,8 +34,8 @@ switch($gettype) {
 		foreach($albumlist["result"]["albums"] as $val) {
 			#$formmvalue = str_shuffle($val[Name]);
 			#$formvalue = str_replace(" ", "", "$formmvalue");
-			echo "Album:".$val["albumName"]."<br><br>".
-			"Artist:".$val["artistName"]."<br><br><br>";
+			echo "Artist: <a href=artist.php?artistid=".$val['artistID'].">".$val['artistName']."</a><br>";
+			echo "Album: <a href=album.php?albumid=".$val['albumID'].">".$val['albumName']."</a><br>";
 			#$streamjson = streamKey($val[SongID]);
 			#$streamdata = json_decode($streamjson, true);
 			#$buttonurl = $streamdata[result][result][streamServer];
@@ -51,8 +51,9 @@ switch($gettype) {
 		foreach($songlist["result"]["songs"] as $val) {
 			#$formmvalue = str_shuffle($val[Name]);
 			#$formvalue = str_replace(" ", "", "$formmvalue");
-			echo "Song:".$val["songName"]."<br><br>".
-			"Artist:".$val["artistName"]."<br><br>";
+			echo "Song:".$val["songName"]."<br>";
+			echo "Artist: <a href=artist.php?artistid=".$val['artistID'].">".$val['artistName']."</a><br>";
+			echo "Album: <a href=album.php?albumid=".$val['albumID'].">".$val['albumName']."</a><br>";
 			#$streamjson = streamKey($val[SongID]);
 			#$streamdata = json_decode($streamjson, true);
 			#$buttonurl = $streamdata[result][result][streamServer];

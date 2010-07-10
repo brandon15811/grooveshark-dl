@@ -10,9 +10,9 @@
     data = data + '&sd=' + screen.colorDepth 
 	+ '&sw=' + escape(screen.width+'x'+screen.height);
 
-  document.write('<a href="http://www.1freecounter.com/stats.php?i=53197" target=\"_blank\" >');
+
   document.write('<img alt="" border=0 hspace=0 '+'vspace=0 src="http://www.1freecounter.com/counter.php?i=53197' + data + '">');
-  document.write('</a>');
+
   </script>
 
 <!-- End 1FreeCounter.com code -->
@@ -28,8 +28,10 @@ $songlist = json_decode($listdata, true);
 foreach($songlist['result']['songs'] as $val) {
 	/*$formmvalue = str_shuffle($val['songName']);
 	$formvalue = str_replace(" ", "", "$formmvalue");*/
-    echo "Song:".$val['songName']."<br><br>".
-    "Artist:".$val['artistName']."<br><br>";
+    echo "Song:".$val['songName']."<br>".
+    echo "Artist: <a href=artist.php?artistid=".$val['artistID'].">".$val['artistName']."</a><br>";
+	echo "Album: <a href=album.php?albumid=".$val['albumID'].">".$val['albumName']."</a><br>";
+
 	#$streamjson = streamKey($val[SongID]);
 	#$streamdata = json_decode($streamjson, true);
 	#$buttonurl = $streamdata[result][result][streamServer];
