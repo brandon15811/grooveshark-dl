@@ -1,7 +1,7 @@
-
 <?php
 #session_start();
 include 'newexec.php';
+include "header.php";
 #include "notice.html";
 
 if (@!$_SESSION['loggedin']) {
@@ -31,11 +31,12 @@ foreach($playlistlist['result']['playlists'] as $vval) {
 }
 $listdata = playlistGetSongs($_GET['id']);
 $playlist = json_decode($listdata, true);
-echo $listname." playlist has ".$playlist['result']['pager']['totalCount']." songs<br><br>";
+echo "Playlist "."\"".$listname."\""." has ".$playlist['result']['pager']['totalCount']." songs<br><br>";
 foreach($playlist['result']['songs'] as $val) {
-	echo "Song:".$val["songName"]."<br><br>".
-	"Artist:".$val["artistName"]."<br><br>";
-	echo "<a href=stream.php?id=".$val["songID"].">Play</a><br><br><br>";
+    echo "Song:".$val['songName']."<br>";
+    echo "Artist: <a href=artist.php?artistid=".$val['artistID'].">".$val['artistName']."</a><br>";
+	echo "Album: <a href=album.php?albumid=".$val['albumID'].">".$val['albumName']."</a><br>";
+	echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
 }
 ?>
 <!-- Start 1FreeCounter.com code -->

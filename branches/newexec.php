@@ -1,5 +1,6 @@
 <?php
 session_start();
+require 'lastfmapi/lastfmapi.php';
 if (!isset($_SESSION['sessionid'])) {
 	$sessionch = curl_init(); 
 	curl_setopt($sessionch, CURLOPT_URL, "http://www.moovida.com/services/grooveshark/session_start/"); 
@@ -10,6 +11,12 @@ if (!isset($_SESSION['sessionid'])) {
 	curl_close($sessionch);
 	$_SESSION['sessionid'] = $sessionjson;
 }
+// Last.fm
+$authVars = array(
+	'apiKey' => "3a6ed2f9c1505f8a30b8c1e3a83d8b28"
+);
+$auth = new lastfmApiAuth('setsession', $authVars);
+$apiClass = new lastfmApi();
 #$sessionjson = '{"header":{"sessionID":"e4f4086dbfe63b1489ad6abd912206f9","hostname":"RHL032","serverTime":1275089211},"result":{"sessionID":"e4f4086dbfe63b1489ad6abd912206f9","expireSeconds":604800}}';
 $sessionjson = $_SESSION['sessionid'];
 $sessionjsona = json_decode($sessionjson, true);
@@ -178,16 +185,16 @@ function artistGetAlbums($artistID)
 	return $albums;
 }
 
-function artistGetSongs($artistID)
+function artistGetSongs($songID)
 {
-	$songs = callRemote("artist.getSongs", array('artistID' => $artistID, 'limit' => 100));
+	$songs = callRemote("artist.getSongs", array('songID' => $songID, 'limit' => 100));
 	return $songs;
 }
 
 // Album Functions
-function albumGetSongs($artistID)
+function albumGetSongs($albumID)
 {
-	$songs = callRemote("album.getSongs", array('artistID' => $artistID, 'limit' => 100));
+	$songs = callRemote("album.getSongs", array('albumID' => $albumID, 'limit' => 100));
 	return $songs;
 }
 

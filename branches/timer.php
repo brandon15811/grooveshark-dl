@@ -8,24 +8,24 @@
 	$jsonarray = array ( 'header' => array ( 'sessionID' => $sessionid, ), 'method' => 'song.setPlaybackReached30Seconds', 'parameters' => array ( 'streamKey' => $key, 'streamServerID' => $serverID, ), );
 	$postjson = str_replace("]", "}", str_replace("[", "{", json_encode($jsonarray)));
 	echo $postjson;
-	#$url = "http://api.grooveshark.com/ws/1.0/?json";
-	$url = "http://groovedl.pcriot.com/bla.php";
-        /*$headers = array(
+	$url = "http://api.grooveshark.com/ws/1.0/?json";
+	//$url = "http://groovedl.pcriot.com/bla.php";
+        $headers = array(
         "POST /ws/1.0/?json HTTP/1.0",
 	"Host: api.grooveshark.com",
         "User-Agent: Twisted PageGetter",
 	"Content-Length: ".strlen($postjson),
     	"Content-type: text/json",
 	"connection: close"
-        );*/
+        );
 
-	$headers = array(
+	/*$headers = array(
         "POST /bla2.php HTTP/1.0",
 	"Host: groovedl.pcriot.com",
         "User-Agent: Twisted PageGetter",
 	"Content-Length: ".strlen($postjson),
     	"Content-type: text/json",
-	"connection: close"
+	"connection: close"*/
         );
 
         $ph = curl_init();

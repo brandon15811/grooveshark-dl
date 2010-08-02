@@ -1,8 +1,8 @@
 <?php
 session_start();
+include "header.php";
 #include "notice.html";
 ?>
-<br><br>
 <form name="input" action="search.php" method="get"> Search: <input type="text" name="name" />
 <select name="type">
 <option value="songs" selected="selected">Songs</option>
