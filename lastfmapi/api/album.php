@@ -126,11 +126,6 @@ class lastfmApiAlbum extends lastfmApi {
 			$info['summary'] = (string) $call->album->wiki->summary;
 			$info['content'] = (string) $call->album->wiki->content;
 			$i = 0;
-			foreach ( $call->album->toptags->tag as $tags ) {
-				$info['toptags'][$i]['name'] = (string) $tags->name;
-				$info['toptags'][$i]['url'] = (string) $tags->url;
-				$i++;
-			}
 			
 			return $info;
 		}
