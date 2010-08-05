@@ -1,69 +1,95 @@
+<?php include 'newexec.php'; ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
+<meta content="minimum-scale=1.0, width=device-width, maximum-scale=0.6667, user-scalable=no" name="viewport" />
+<link href="css/style.css" rel="stylesheet" media="screen" type="text/css" />
+<script src="javascript/functions.js" type="text/javascript"></script>
+<title>Grooveshark</title>
+<meta content="keyword1,keyword2,keyword3" name="keywords" />
+<meta content="Description of your page" name="description" />
+</head>
+
+<body>
+
+<div id="topbar">
+<div id="title">Grooveshark</div>
 <?php
-#ssession_start();
-include 'newexec.php';
-#include "notice.html";
+if ($_SESSION['loggedin']) {
+	echo '<div id="bluerightbutton"><a href="logout.php">Logout</a></div>';
+} else {
+	echo '<div id="bluerightbutton"><a href="login.php">Login</a></div>';
+}
+?>
+<div id="leftnav">
+<a href="index.php"><img alt="home" src="images/home.png" /></a></div>
+</div>
+<div class="searchbox"><form action="search.php" method="get">
+<fieldset><input id="search" placeholder="Search" type="text" name="name" />
+<input id="submit" type="hidden" />
+</fieldset>
+</div>
+<div class="searchbox">
+<li class="select"><select name="type">
+<option value="songs" selected="selected">Songs</option>
+<option value="artists">Artists</option>
+<option value="albums">Albums</option>
+</select><span class="arrow">
+</span></li></form></div>
+
+<div id="content">
+<?php
 if (!isset($_GET["type"])) {
 	$gettype = "songs";
 } else {
 	$gettype = $_GET['type'];
 }
-#$session = $_SESSION['sessionid'];
 switch($gettype) {
 	case "artists":
+	echo '<span class="graytitle">Popular Artists</span>
+		<ul class="pageitem">';
 		$popularartistdata = popularGetArtists();
 		$artistlist = json_decode($popularartistdata, true);
-		#echo $songlist[result][Songs][SongName][0];
-		echo "<br>";
 		foreach($artistlist["result"]["artists"] as $val) {
-			#$formmvalue = str_shuffle($val[Name]);
-			#$formvalue = str_replace(" ", "", "$formmvalue");
-			#echo "Song:".$val["songName"]."<br><br>".
-			echo "Artist: <a href=artist.php?artistid=".$val['artistID'].">".$val['artistName']."</a><br>";
-			#$streamjson = streamKey($val[SongID]);
-			#$streamdata = json_decode($streamjson, true);
-			#$buttonurl = $streamdata[result][result][streamServer];
-			#$buttonkey = $streamdata[result][result][streamKey];
-			#echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
+			echo "<li class='menu'><a href='artist.php?artistid=".$val['artistID']."'>
+	<img alt='list' src='thumbs/music.png' /><span class='name'>".$val['artistName']."</span><span class='arrow'></span></a></li>";
 		}
 		break;
 	case "albums":
+		echo '<span class="graytitle">Popular Albums</span>
+		<ul class="pageitem">';
 		$popularalbumdata = popularGetAlbums();
 		$albumlist = json_decode($popularalbumdata, true);
-		#echo $songlist[result][Songs][SongName][0];
-		echo "<br>";
 		foreach($albumlist["result"]["albums"] as $val) {
-			#$formmvalue = str_shuffle($val[Name]);
-			#$formvalue = str_replace(" ", "", "$formmvalue");
-			echo "Artist: <a href=artist.php?artistid=".$val['artistID'].">".$val['artistName']."</a><br>";
-			echo "Album: <a href=album.php?albumid=".$val['albumID'].">".$val['albumName']."</a><br>";
-			#$streamjson = streamKey($val[SongID]);
-			#$streamdata = json_decode($streamjson, true);
-			#$buttonurl = $streamdata[result][result][streamServer];
-			#$buttonkey = $streamdata[result][result][streamKey];
-			#echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
+			echo "<li class='menu'><a href='album.php?albumid=".$val['albumID']."'>
+	<img alt='list' src='thumbs/music.png' /><span class='name'>".$val['albumName']." by ".$val['artistName']."</span><span class='arrow'></span></a></li>";
 		}
 		break;
 	default:
+		echo '<span class="graytitle">Popular Songs</span>
+		<ul class="pageitem">';
 		$popularsongdata = popularGetSongs();
 		$songlist = json_decode($popularsongdata, true);
-		#echo $songlist[result][Songs][SongName][0];
-		echo "<br>";
 		foreach($songlist["result"]["songs"] as $val) {
-			#$formmvalue = str_shuffle($val[Name]);
-			#$formvalue = str_replace(" ", "", "$formmvalue");
-			echo "Song:".$val["songName"]."<br>";
-			echo "Artist: <a href=artist.php?artistid=".$val['artistID'].">".$val['artistName']."</a><br>";
-			echo "Album: <a href=album.php?albumid=".$val['albumID'].">".$val['albumName']."</a><br>";
-			#$streamjson = streamKey($val[SongID]);
-			#$streamdata = json_decode($streamjson, true);
-			#$buttonurl = $streamdata[result][result][streamServer];
-			#$buttonkey = $streamdata[result][result][streamKey];
-			echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
+			echo "<li class='menu'><a href='stream.php?songid=".$val['songID']."'>
+	<img alt='list' src='thumbs/music.png' /><span class='name'>".$val['songName']." by ".$val['artistName']."</span><span class='arrow'></span></a></li>";
 		}
 		break;
 	}
 
+
 ?>
+
+		</ul>
+</div>
+
+<div id="footer">
+	<!-- Support iWebKit by sending us traffic; please keep this footer on your page, consider it a thank you for our work :-) -->
+	<a class="noeffect" href="http://iwebkit.net">Powered by iWebKit</a></div>
 <!-- Start 1FreeCounter.com code -->
   
   <script language="JavaScript">
@@ -80,3 +106,5 @@ switch($gettype) {
   </script>
 
 <!-- End 1FreeCounter.com code -->
+</body>
+</html>

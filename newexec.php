@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'lastfmapi/lastfmapi.php';
+require '../lastfmapi/lastfmapi.php';
 if (!isset($_SESSION['sessionid'])) {
 	$sessionch = curl_init(); 
 	curl_setopt($sessionch, CURLOPT_URL, "http://www.moovida.com/services/grooveshark/session_start/"); 
@@ -17,23 +17,17 @@ $authVars = array(
 );
 $auth = new lastfmApiAuth('setsession', $authVars);
 $apiClass = new lastfmApi();
-
 #$sessionjson = '{"header":{"sessionID":"e4f4086dbfe63b1489ad6abd912206f9","hostname":"RHL032","serverTime":1275089211},"result":{"sessionID":"e4f4086dbfe63b1489ad6abd912206f9","expireSeconds":604800}}';
 $sessionjson = $_SESSION['sessionid'];
 $sessionjsona = json_decode($sessionjson, true);
 $sessionid = $sessionjsona["result"]["sessionID"];
-#echo $sessionid;
-/*function callRemote($method, $params = array()) {
- $result = 2 + 2;
- return($result);
-}
-echo callRemote("hello");*/
+
 
 function callRemote($method, $parameters = array())
 {
 	global $sessionid;
 	$jsonarray = array ( 'header' => array ( 'sessionID' => $sessionid, ), 'method' => $method, 'parameters' => $parameters, );
-	$postjson = str_replace("]", "}", str_replace("[", "{", json_encode($jsonarray)));
+	$postjson = stripslashes(str_replace("]", "}", str_replace("[", "{", json_encode($jsonarray))));
 	#echo $postjson;
 	$url = "http://api.grooveshark.com/ws/1.0/?json";
         $headers = array(
@@ -64,11 +58,17 @@ function getStreamURL($songID)
 // User Functions
 function createUserAuthToken($username, $password)
 {
-	$hashpass = md5($password);
+	$hashpass = $password;
 	$hashpass = $username.$hashpass;
 	$hashpass = md5($hashpass);
-	$authToken = callRemote("session.createUserAuthToken", array('username' => $username, 'hashpass' => $hasspass));
-	return $authToken;
+	$authToken = callRemote("session.createUserAuthToken", array('username' => $username, 'hashpass' => $hashpass));
+	$authtoken = json_decode($authToken, true);
+	if (isset($authtoken['fault'])) {
+		return $authToken;
+	} else {
+		$authToken = $authtoken['result']['token'];
+		return $authToken;
+	}
 }
 
 function destroyUserAuthToken($token)
@@ -86,20 +86,26 @@ function loginViaAuthToken($token)
 
 function login($username, $password)
 {
-	global $loggedin;
-	if($loggedin) {
+	#global $loggedin;
+	$_SESSION['loggedin'] = false;
+	if($_SESSION['loggedin']) {
 		return $userID;
 	} else {
 		$token = createUserAuthToken($username, $password);
-		$userid = loginViaAuthToken($token);
-		$loggedin = true;
-		return $userID;
+		$tokenj = json_decode($token, true);
+		if (isset($tokenj['fault'])) {
+			return $token;
+		} else {		
+			$userID = loginViaAuthToken($token);
+			return $userID;
+		}
 	}
 }
 
 function loggedInStatus()
 {
-	return $loggedin;
+	#global $loggedin;
+	return $_SESSION['loggedin'];
 }
 
 
@@ -116,18 +122,21 @@ function userGetFavoriteSongs($userID)
 
 
 }
+
 // Playlist Functions
 function userGetPlaylists($userID)
 {
-	$playlists = callRemote("remote.getPlaylists", array('userID' => $userID));
-	return $playlists;
+	if($_SESSION['loggedin'])
+	{
+		$playlists = callRemote("user.getPlaylists", array('userID' => $userID));
+		return $playlists;
+	}
 
 }
 
-
 function playlistGetSongs($playlistID)
 {
-	if($loggedIn)
+	if($_SESSION['loggedin'])
 	{
 		$playlist = callRemote("playlist.getSongs", array('playlistID' => $playlistID));
 		return $playlist;
@@ -176,19 +185,18 @@ function artistGetAlbums($artistID)
 	return $albums;
 }
 
-function artistGetSongs($artistID)
+function artistGetSongs($songID)
 {
-	$songs = callRemote("artist.getSongs", array('artistID' => $artistID, 'limit' => 100));
+	$songs = callRemote("artist.getSongs", array('songID' => $songID, 'limit' => 100));
 	return $songs;
 }
 
 // Album Functions
-function albumGetSongs($artistID)
+function albumGetSongs($albumID)
 {
-	$songs = callRemote("album.getSongs", array('albumID' => $artistID, 'limit' => 100));
+	$songs = callRemote("album.getSongs", array('albumID' => $albumID, 'limit' => 100));
 	return $songs;
 }
 
-#cho getStreamURL(9685410);
 
 ?>

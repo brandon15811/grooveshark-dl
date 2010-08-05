@@ -49,10 +49,9 @@ $serverID = $streamData["result"]["streamServerID"];
         curl_setopt($gh, CURLOPT_TIMEOUT, 60);
         curl_setopt($gh, CURLOPT_HTTPHEADER, $headersg);
         #curl_setopt($gh, CURLOPT_POST, 1);
-	if (strpos($urlg, "akm") !== false) {
-     	  curl_setopt($gh, CURLOPT_HEADER, 1);
-	  curl_setopt($gh, CURLOPT_RETURNTRANSFER, 1);
-	}
+     	curl_setopt($gh, CURLOPT_HEADER, 1);
+		curl_setopt($gh, CURLOPT_RETURNTRANSFER, 1);
+	
 	/*$header = http_parse_headers($myvar);
   	$location = $header['Location'];*/
 if (strpos($urlg, "akm") !== false) {
@@ -64,14 +63,19 @@ if (strpos($urlg, "akm") !== false) {
   $lg = curl_init();
   curl_setopt($lg, CURLOPT_URL, $location);
   curl_setopt($lg, CURLOPT_TIMEOUT, 60);
-  curl_setopt($lg, CURLOPT_HTTPHEADER, 1);
-  curl_setopt($gh, CURLOPT_RETURNTRANSFER, 1);
-  echo curl_exec($lg);
+  //curl_setopt($lg, CURLOPT_HEADER, 1);
+  curl_setopt($lg, CURLOPT_RETURNTRANSFER, 1);
+  $stream = curl_exec($lg);
+  header('Content-Length: '.strlen($stream));
+  echo $stream;
   curl_close($lg);
 
 } else {
   #echo "Before curl_exec:".memory_get_usage()."\\\n";
-  echo curl_exec($gh);
+  $stream = curl_exec($gh);
+  strlen($stream);
+  header('Content-Length: '.strlen($stream));
+  echo $stream;
   curl_close($gh);
 }
 $file1 = str_replace("/stream.php", "", $_SERVER['PHP_SELF']);
