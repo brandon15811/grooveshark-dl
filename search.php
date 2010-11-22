@@ -12,7 +12,7 @@ $songlist = json_decode($searchdata, true);
 foreach($songlist["result"]["songs"] as $val) {
 	#$formmvalue = str_shuffle($val[Name]);
 	#$formvalue = str_replace(" ", "", "$formmvalue");
-    echo "Song:".$val["songName"]."<br>".
+    echo "Song:".$val["songName"]."<br>";
     echo "Artist: <a href=artist.php?artistid=".$val['artistID'].">".$val['artistName']."</a><br>";
 	echo "Album: <a href=album.php?albumid=".$val['albumID'].">".$val['albumName']."</a><br>";
 
