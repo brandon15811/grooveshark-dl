@@ -49,7 +49,7 @@ if (!isset($_GET["type"])) {
 	$gettype = $_GET['type'];
 }
 switch($gettype) {
-	case "artists":
+/*	case "artists":
 	echo '<span class="graytitle">Popular Artists</span>
 		<ul class="pageitem">';
 		$popularartistdata = popularGetArtists();
@@ -68,7 +68,7 @@ switch($gettype) {
 			echo "<li class='menu'><a href='album.php?albumid=".$val['albumID']."'>
 	<img alt='list' src='thumbs/music.png' /><span class='name'>".$val['albumName']." by ".$val['artistName']."</span><span class='arrow'></span></a></li>";
 		}
-		break;
+		break;*/
 	default:
 		echo '<span class="graytitle">Popular Songs</span>
 		<ul class="pageitem">';

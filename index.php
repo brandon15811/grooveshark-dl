@@ -46,10 +46,10 @@ if ($_SESSION['loggedin']) {
 		<ul class="pageitem">
 			<li class="menu"><a href="popular.php?type=songs">
 			<img alt="list" src="thumbs/stocks.png" /><span class="name">Popular Songs</span><span class="arrow"></span></a></li>
-			<li class="menu"><a href="popular.php?type=albums">
+<!--			<li class="menu"><a href="popular.php?type=albums">
 			<img alt="list" src="thumbs/stocks.png" /><span class="name">Popular Albums</span><span class="arrow"></span></a></li>
 			<li class="menu"><a href="popular.php?type=artists">
-			<img alt="list" src="thumbs/stocks.png" /><span class="name">Popular Artists</span><span class="arrow"></span></a></li>
+			<img alt="list" src="thumbs/stocks.png" /><span class="name">Popular Artists</span><span class="arrow"></span></a></li>-->
 		</ul>
 	<span class="graytitle">Playlists</span>
 		<ul class="pageitem">
