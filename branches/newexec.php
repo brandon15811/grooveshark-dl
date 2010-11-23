@@ -186,6 +186,11 @@ function popularGetSongs()
 			$songs = callRemote("popular.getSongs", array('limit' => 100));
 			$esongs = mysql_real_escape_string($songs);
 			$sql = "UPDATE `popular` SET `json` = '".$esongs."', `time` = '".time()."' WHERE `type` = 'songs';";
+			$result = mysql_query($sql);
+			if (!$result)
+				{
+					die('Could not execute query: ' . mysql_error());
+				}
 			return $songs;
 		} else {
 			$sql = "SELECT json FROM `popular` WHERE type = 'songs'";
@@ -219,6 +224,11 @@ function popularGetArtists()
 			$artists = callRemote("popular.getArtists", array('limit' => 100));
 			$eartists = mysql_real_escape_string($songs);
 			$sql = "UPDATE `popular` SET `json` = '".$eartists."', `time` = '".time()."' WHERE `type` = 'artists';";
+			$result = mysql_query($sql);
+			if (!$result)
+				{
+					die('Could not execute query: ' . mysql_error());
+				}
 			return $artists;
 		} else {
 			$sql = "SELECT json FROM `popular` WHERE type = 'artists'";
@@ -250,9 +260,15 @@ function popularGetAlbums()
 		$time = mysql_fetch_array($result);
 		if (time() - $time['0'] > $ctime and $crtype = "PHP")
 		{
+
 			$albums = callRemote("popular.getAlbums", array('limit' => 100));
 			$ealbums = mysql_real_escape_string($songs);
 			$sql = "UPDATE `popular` SET `json` = '".$esongs."', `time` = '".time()."' WHERE `type` = 'albums';";
+			$result = mysql_query($sql);
+			if (!$result)
+				{
+					die('Could not execute query: ' . mysql_error());
+				}
 			return $albums;
 		} else {
 			$sql = "SELECT json FROM `popular` WHERE type = 'albums'";
