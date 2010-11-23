@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'config.php';
 require 'lastfmapi/lastfmapi.php';
 if (!isset($_SESSION['sessionid'])) {
 	$sessionch = curl_init(); 
@@ -21,6 +22,19 @@ $apiClass = new lastfmApi();
 $sessionjson = $_SESSION['sessionid'];
 $sessionjsona = json_decode($sessionjson, true);
 $sessionid = $sessionjsona["result"]["sessionID"];
+if ($cache) {
+	$con = mysql_connect($mysql_host, $mysql_user, $mysql_pass);
+	if (!$con)
+	{
+		die('Could not connect: ' . mysql_error());
+	}
+
+	$db = mysql_select_db($mysql_db, $con);
+	if (!$db)
+	{
+		die('Could not select database: ' . mysql_error());
+	}
+}
 
 
 function callRemote($method, $parameters = array())
@@ -87,19 +101,14 @@ function loginViaAuthToken($token)
 function login($username, $password)
 {
 	#global $loggedin;
-	$_SESSION['loggedin'] = false;
+	//$_SESSION['loggedin'] = false;
 	if($_SESSION['loggedin']) {
 		return $userID;
 	} else {
-		$token = createUserAuthToken($username, $password);
-		$tokenj = json_decode($token, true);
-		if (isset($tokenj['fault'])) {
-			return $token;
-		} else {		
-			$userID = loginViaAuthToken($token);
-			return $userID;
+		$token = md5(strtolower($username).$password);
+		$userID = callRemote("session.loginExt", array('username' => $username, 'token' => $token));
+		return $userID;
 		}
-	}
 }
 
 function loggedInStatus()
@@ -163,20 +172,103 @@ function searchAlbums($query)
 // Popular Functions
 function popularGetSongs()
 {
-	$songs = callRemote("popular.getSongs", array('limit' => 100));
-	return $songs;
+	if ($GLOBALS['cache'])
+	{
+		$sql = "SELECT time FROM `popular` WHERE type = 'songs'";
+		$result = mysql_query($sql);
+		if (!$result)
+			{
+				die('Could not execute query: ' . mysql_error());
+			}
+		$time = mysql_fetch_array($result);
+		if (time() - $time['0'] > $ctime and $crtype = "PHP")
+		{
+			$songs = callRemote("popular.getSongs", array('limit' => 100));
+			$esongs = mysql_real_escape_string($songs);
+			$sql = "UPDATE `popular` SET `json` = '".$esongs."', `time` = '".time()."' WHERE `type` = 'songs';";
+			return $songs;
+		} else {
+			$sql = "SELECT json FROM `popular` WHERE type = 'songs'";
+			$result = mysql_query($sql);
+			if (!$result)
+				{
+					die('Could not execute query: ' . mysql_error());
+				}
+			$songs = mysql_fetch_array($result);
+			return $songs['0'];
+		}
+	} else {
+		$songs = callRemote("popular.getSongs", array('limit' => 100));
+		return $songs;
+	}
 }
 
 function popularGetArtists()
 {
-	$songs = callRemote("popular.getArtists", array('limit' => 100));
-	return $songs;
+	if ($GLOBALS['cache'])
+	{
+		$sql = "SELECT time FROM `popular` WHERE type = 'artists'";
+		$result = mysql_query($sql);
+		if (!$result)
+			{
+				die('Could not execute query: ' . mysql_error());
+			}
+		$time = mysql_fetch_array($result);
+		if (time() - $time['0'] > $ctime and $crtype = "PHP")
+		{
+			$artists = callRemote("popular.getArtists", array('limit' => 100));
+			$eartists = mysql_real_escape_string($songs);
+			$sql = "UPDATE `popular` SET `json` = '".$eartists."', `time` = '".time()."' WHERE `type` = 'artists';";
+			return $artists;
+		} else {
+			$sql = "SELECT json FROM `popular` WHERE type = 'artists'";
+			$result = mysql_query($sql);
+			if (!$result)
+				{
+					die('Could not execute query: ' . mysql_error());
+				}
+			$artists = mysql_fetch_array($result);
+			return $artists['0'];
+		}
+	} else {
+		$songs = callRemote("popular.getArtists", array('limit' => 100));
+		return $artists;
+	}
 }
 
 function popularGetAlbums()
 {
-	$songs = callRemote("popular.getAlbums", array('limit' => 100));
-	return $songs;
+	
+	if ($GLOBALS['cache'])
+	{
+		$sql = "SELECT time FROM `popular` WHERE type = 'albums'";
+		$result = mysql_query($sql);
+		if (!$result)
+			{
+				die('Could not execute query: ' . mysql_error());
+			}
+		$time = mysql_fetch_array($result);
+		if (time() - $time['0'] > $ctime and $crtype = "PHP")
+		{
+			$albums = callRemote("popular.getAlbums", array('limit' => 100));
+			$ealbums = mysql_real_escape_string($songs);
+			$sql = "UPDATE `popular` SET `json` = '".$esongs."', `time` = '".time()."' WHERE `type` = 'albums';";
+			return $albums;
+		} else {
+			$sql = "SELECT json FROM `popular` WHERE type = 'albums'";
+			$result = mysql_query($sql);
+			if (!$result)
+				{
+					die('Could not execute query: ' . mysql_error());
+				}
+			$albums = mysql_fetch_array($result);
+			return $albums['0'];
+		}
+	} else {
+		$songs = callRemote("popular.getAlbums", array('limit' => 100));
+		return $albums;
+	}
+	
 }
 // Artist Functions
 function artistGetAlbums($artistID)

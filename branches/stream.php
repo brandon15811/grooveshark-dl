@@ -46,10 +46,9 @@ $serverID = $streamData["result"]["streamServerID"];
         );
         $gh = curl_init();
         curl_setopt($gh, CURLOPT_URL,$urlg);
-        curl_setopt($gh, CURLOPT_TIMEOUT, 60);
         curl_setopt($gh, CURLOPT_HTTPHEADER, $headersg);
         #curl_setopt($gh, CURLOPT_POST, 1);
-     	curl_setopt($gh, CURLOPT_HEADER, 1);
+     	//curl_setopt($gh, CURLOPT_HEADER, 1);
 		curl_setopt($gh, CURLOPT_RETURNTRANSFER, 1);
 	
 	/*$header = http_parse_headers($myvar);
@@ -62,7 +61,7 @@ if (strpos($urlg, "akm") !== false) {
   $location = $header['Location'];
   $lg = curl_init();
   curl_setopt($lg, CURLOPT_URL, $location);
-  curl_setopt($lg, CURLOPT_TIMEOUT, 60);
+  //curl_setopt($lg, CURLOPT_TIMEOUT, 60);
   //curl_setopt($lg, CURLOPT_HEADER, 1);
   curl_setopt($lg, CURLOPT_RETURNTRANSFER, 1);
   $stream = curl_exec($lg);
@@ -82,7 +81,6 @@ $file1 = str_replace("/stream.php", "", $_SERVER['PHP_SELF']);
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, "http://".$_SERVER['HTTP_HOST'].$file1."/timer.php?session=".$sessionid."&key=".$streamKey."&serverid=".$serverID);
 curl_setopt($ch, CURLOPT_HEADER, 0);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_TIMEOUT, 1);
 $status = curl_exec($ch);
 curl_close($ch);

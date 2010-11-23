@@ -10,6 +10,7 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
 <meta content="minimum-scale=1.0, width=device-width, maximum-scale=0.6667, user-scalable=no" name="viewport" />
 <link href="css/style.css" rel="stylesheet" media="screen" type="text/css" />
 <script src="javascript/functions.js" type="text/javascript"></script>
+<script src="../md5.js" type="text/javascript"></script>
 <title>Grooveshark</title>
 <meta content="keyword1,keyword2,keyword3" name="keywords" />
 <meta content="Description of your page" name="description" />
@@ -42,10 +43,9 @@ type="hidden" /></fieldset></form></div>
 			echo "You are logged in";
 			exit;
 		}
-		if (isset($_POST['user'])) {
-			$user = $_POST['user'];
-			$pass = $_POST['pass'];
-			$pass = md5($pass);
+		if (isset($_POST['userone']) and isset($_POST['passtwo'])) {
+			$user = $_POST['userone'];
+			$pass = $_POST['passtwo'];
 			$userID = login($user, $pass);
 
 			$userID = json_decode($userID, true);
@@ -70,11 +70,11 @@ type="hidden" /></fieldset></form></div>
 }
 html();
 ?>
-			<form name="one" action="login.php" method="post">
-				<li class="bigfield"><input name="user" placeholder="Username" type="text" /></li>
-				<li class="bigfield"><input name="pass" placeholder="Password" type="password" /></li>
-				<li class="button"><input name="name" type="submit" value="Submit 
-input" /></li> 
+			<form name="one" action="login.php" method="post" onsubmit="document.forms['one']['passone'].value=''">
+				<li class="bigfield"><input name="userone" placeholder="Username" type="text" /></li>
+				<li class="bigfield"><input name="passone" placeholder="Password" type="password" onkeyup="document.forms['one']['passtwo'].value=hex_md5(document.forms['one']['passone'].value)" /></li>
+				<input type="hidden" name="passtwo" value=""/>
+				<li class="button"><input name="name" type="submit" value="Submit input" /></li> 
 			</form>
 		</ul>
 </div>
