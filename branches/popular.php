@@ -1,7 +1,9 @@
 <?php
+$time_start = microtime(true);
 #ssession_start();
 include 'newexec.php';
 include "header.php";
+var_dump($cache);
 if (!isset($_GET["type"])) {
 	$gettype = "songs";
 } else {
@@ -9,7 +11,7 @@ if (!isset($_GET["type"])) {
 }
 #$session = $_SESSION['sessionid'];
 switch($gettype) {
-	case "artists":
+	/*case "artists":
 		$popularartistdata = popularGetArtists();
 		$artistlist = json_decode($popularartistdata, true);
 		#echo $songlist[result][Songs][SongName][0];
@@ -42,7 +44,7 @@ switch($gettype) {
 			#$buttonkey = $streamdata[result][result][streamKey];
 			#echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
 		}
-		break;
+		break;*/
 	default:
 		$popularsongdata = popularGetSongs();
 		$songlist = json_decode($popularsongdata, true);
@@ -62,7 +64,9 @@ switch($gettype) {
 		}
 		break;
 	}
-
+$time_end = microtime(true);
+$time = $time_end - $time_start;
+echo $time;
 ?>
 <!-- Start 1FreeCounter.com code -->
   

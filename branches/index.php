@@ -17,16 +17,10 @@ include "header.php";
 if (@!$_SESSION['loggedin']) {
 	echo "You must be logged in to see Playlists";
 } else {
-	echo "<a href=playlist.php>Playlists</a><br><br>";
+	echo "<a href="playlist.php">Playlists</a><br><br>";
 }
 ?>
-</form> 
-<form name="input" action="popular.php" method="get"> Popular <select name="type">
-<option value="songs" selected="selected">Songs</option>
-<option value="artists">Artists</option>
-<option value="albums">Albums</option>
-</select>
-<input type="submit" value="Go" />
+<a href="popular.php?type=songs">Popular Songs</a><br><br>
 
 
 <!-- Start 1FreeCounter.com code -->

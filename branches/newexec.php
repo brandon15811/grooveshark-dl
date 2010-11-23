@@ -70,7 +70,7 @@ function getStreamURL($songID)
 	return $url;
 }
 // User Functions
-function createUserAuthToken($username, $password)
+/*function createUserAuthToken($username, $password)
 {
 	$hashpass = $password;
 	$hashpass = $username.$hashpass;
@@ -96,7 +96,7 @@ function loginViaAuthToken($token)
 	$login = callRemote("session.loginViaAuthToken", array('token' => $token));
 	destroyUserAuthToken($token);
 	return $login;
-}
+}*/
 
 function login($username, $password)
 {
@@ -208,7 +208,7 @@ function popularGetSongs()
 	}
 }
 
-function popularGetArtists()
+/*function popularGetArtists()
 {
 	if ($GLOBALS['cache'])
 	{
@@ -285,7 +285,7 @@ function popularGetAlbums()
 		return $albums;
 	}
 	
-}
+}*/
 // Artist Functions
 function artistGetAlbums($artistID)
 {
