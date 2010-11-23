@@ -17,7 +17,7 @@ include "header.php";
 if (@!$_SESSION['loggedin']) {
 	echo "You must be logged in to see Playlists";
 } else {
-	echo "<a href="playlist.php">Playlists</a><br><br>";
+	echo "<a href='playlist.php'>Playlists</a><br><br>";
 }
 ?>
 <a href="popular.php?type=songs">Popular Songs</a><br><br>
