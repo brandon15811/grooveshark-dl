@@ -3,7 +3,6 @@ $time_start = microtime(true);
 #ssession_start();
 include 'newexec.php';
 include "header.php";
-var_dump($cache);
 if (!isset($_GET["type"])) {
 	$gettype = "songs";
 } else {

@@ -25,8 +25,8 @@
         "User-Agent: Twisted PageGetter",
 	"Content-Length: ".strlen($postjson),
     	"Content-type: text/json",
-	"connection: close"*/
-        );
+	"connection: close"
+        );*/
 
         $ph = curl_init();
         curl_setopt($ph, CURLOPT_URL,$url);

@@ -6,7 +6,7 @@ $mysql_user = "root";
 $mysql_pass = "";
 $mysql_db = "cache";
 //Cache refresh
-$ctime = 86400;
+$ctime = "86400";
 //PHP or cron
 $crtype = "PHP";
 //Updates (Not Implemented Yet)

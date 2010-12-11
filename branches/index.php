@@ -15,7 +15,7 @@ include "header.php";
 <?php
 #<form name="input" action="playlist.php" method="get"> Playlist ID: <input type="text" name="id" /> 
 if (@!$_SESSION['loggedin']) {
-	echo "You must be logged in to see Playlists";
+	echo "You must be logged in to see Playlists<br><br>";
 } else {
 	echo "<a href='playlist.php'>Playlists</a><br><br>";
 }

@@ -154,20 +154,134 @@ function playlistGetSongs($playlistID)
 // Search Functions
 function searchSongs($query)
 {
-	$search = callRemote("search.songs", array('query' => $query, 'limit' => 100, 'streamableOnly' => 1));
-	return $search;
+	if ($GLOBALS['cache'])
+	{
+		$equery = mysql_real_escape_string($query);
+		$sql = "SELECT time FROM `search` WHERE type = 'songs' and query = '".$equery."'";
+		$result = mysql_query($sql);
+		if (!$result)
+			{
+				die('Could not execute query: ' . mysql_error());
+			}
+		$time = mysql_fetch_array($result);
+		if ((time() - $time['0'] > $GLOBALS['ctime'] and $GLOBALS['crtype'] = "PHP") or (mysql_num_rows($result) == 0))
+		{
+			$songs = callRemote("search.songs", array('query' => $query, 'limit' => 100, 'streamableOnly' => 1));
+			$esongs = mysql_real_escape_string($songs);
+			if (mysql_num_rows($result) == 0)
+			{
+				$sql = "INSERT INTO `search` (`query`, `type`, `json`, `time`) VALUES ('".$equery."', 'songs', '".$esongs."', ".time().");";
+			} else {
+				$sql = "UPDATE `search` SET `query` = '".$equery."', `json` = '".$esongs."', `time` = '".time()."' WHERE `type` = 'songs' and `query` = '".$equery."';";
+				}
+			$result = mysql_query($sql);
+			if (!$result)
+				{
+					die('Could not execute query: ' . mysql_error());
+				}
+			return $songs;
+		} else {
+			$sql = "SELECT json FROM `search` WHERE type = 'songs' and query = '".$equery."'";
+			$result = mysql_query($sql);
+			if (!$result)
+				{
+					die('Could not execute query: ' . mysql_error());
+				}
+			$songs = mysql_fetch_array($result);
+			return $songs['0'];
+		}
+	} else {
+		$search = callRemote("search.songs", array('query' => $query, 'limit' => 100, 'streamableOnly' => 1));
+		return $search;
+	}
 }
 
 function searchArtists($query)
 {
-	$search = callRemote("search.artists", array('query' => $query, 'limit' => 100, 'streamableOnly' => 1));
-	return $search;
+	if ($GLOBALS['cache'])
+	{
+		$equery = mysql_real_escape_string($query);
+		$sql = "SELECT time FROM `search` WHERE type = 'artists' and query = '".$equery."'";
+		$result = mysql_query($sql);
+		if (!$result)
+			{
+				die('Could not execute query: ' . mysql_error());
+			}
+		$time = mysql_fetch_array($result);
+		if ((time() - $time['0'] > $GLOBALS['ctime'] and $GLOBALS['crtype'] = "PHP") or (mysql_num_rows($result) == 0))
+		{
+			$artists = callRemote("search.artists", array('query' => $query, 'limit' => 100, 'streamableOnly' => 1));
+			$eartists = mysql_real_escape_string($artists);
+			if (mysql_num_rows($result) == 0)
+			{
+				$sql = "INSERT INTO `search` (`query`, `type`, `json`, `time`) VALUES ('".$equery."', 'artists', '".$eartists."', ".time().");";
+			} else {
+				$sql = "UPDATE `search` SET `query` = '".$equery."', `json` = '".$artists."', `time` = '".time()."' WHERE `type` = 'artists' and `query` = '".$equery."';";
+				}
+			$result = mysql_query($sql);
+			if (!$result)
+				{
+					die('Could not execute query: ' . mysql_error());
+				}
+			return $artists;
+		} else {
+			$sql = "SELECT json FROM `search` WHERE type = 'artists' and query = '".$equery."'";
+			$result = mysql_query($sql);
+			if (!$result)
+				{
+					die('Could not execute query: ' . mysql_error());
+				}
+			$artists = mysql_fetch_array($result);
+			return $artists['0'];
+		}
+	} else {
+		$search = callRemote("search.artists", array('query' => $query, 'limit' => 100, 'streamableOnly' => 1));
+		return $search;
+	}
 }
 
 function searchAlbums($query)
 {
-	$search = callRemote("search.albums", array('query' => $query, 'limit' => 100, 'streamableOnly' => 1));
-	return $search;
+	if ($GLOBALS['cache'])
+	{
+		$equery = mysql_real_escape_string($query);
+		$sql = "SELECT time FROM `search` WHERE type = 'albums' and query = '".$equery."'";
+		$result = mysql_query($sql);
+		if (!$result)
+			{
+				die('Could not execute query: ' . mysql_error());
+			}
+		$time = mysql_fetch_array($result);
+		if ((time() - $time['0'] > $GLOBALS['ctime'] and $GLOBALS['crtype'] = "PHP") or (mysql_num_rows($result) == 0))
+		{
+			$albums = callRemote("search.albums", array('query' => $query, 'limit' => 100, 'streamableOnly' => 1));
+			$ealbums = mysql_real_escape_string($albums);
+			if (mysql_num_rows($result) == 0)
+			{
+				$sql = "INSERT INTO `search` (`query`, `type`, `json`, `time`) VALUES ('".$equery."', 'albums', '".$ealbums."', ".time().");";
+			} else {
+				$sql = "UPDATE `search` SET `query` = '".$equery."', `json` = '".$ealbums."', `time` = '".time()."' WHERE `type` = 'albums' and `query` = '".$equery."';";
+				}
+			$result = mysql_query($sql);
+			if (!$result)
+				{
+					die('Could not execute query: ' . mysql_error());
+				}
+			return $albums;
+		} else {
+			$sql = "SELECT json FROM `search` WHERE type = 'albums' and query = '".$equery."'";
+			$result = mysql_query($sql);
+			if (!$result)
+				{
+					die('Could not execute query: ' . mysql_error());
+				}
+			$albums = mysql_fetch_array($result);
+			return $albums['0'];
+		}
+	} else {
+		$search = callRemote("search.albums", array('query' => $query, 'limit' => 100, 'streamableOnly' => 1));
+		return $search;
+	}
 }
 // Popular Functions
 function popularGetSongs()
@@ -181,7 +295,7 @@ function popularGetSongs()
 				die('Could not execute query: ' . mysql_error());
 			}
 		$time = mysql_fetch_array($result);
-		if (time() - $time['0'] > $ctime and $crtype = "PHP")
+		if (time() - $time['0'] > $GLOBALS['ctime'] and $crtype = "PHP")
 		{
 			$songs = callRemote("popular.getSongs", array('limit' => 100));
 			$esongs = mysql_real_escape_string($songs);
@@ -289,21 +403,136 @@ function popularGetAlbums()
 // Artist Functions
 function artistGetAlbums($artistID)
 {
-	$albums = callRemote("artist.getAlbums", array('artistID' => $artistID, 'limit' => 100));
-	return $albums;
+	if ($GLOBALS['cache'])
+	{
+		$eartistID = mysql_real_escape_string($artistID);
+		$sql = "SELECT time FROM `artist` WHERE type = 'albums' and artistID = '".$eartistID."'";
+		$result = mysql_query($sql);
+		if (!$result)
+			{
+				die('Could not execute query: ' . mysql_error());
+			}
+		$time = mysql_fetch_array($result);
+		if ((time() - $time['0'] > $GLOBALS['ctime'] and $GLOBALS['crtype'] = "PHP") or (mysql_num_rows($result) == 0))
+		{
+			$albums = callRemote("artist.getAlbums", array('artistID' => $artistID, 'limit' => 100));
+			$ealbums = mysql_real_escape_string($albums);
+			if (mysql_num_rows($result) == 0)
+			{
+				$sql = "INSERT INTO `artist` (`artistID`, `type`, `json`, `time`) VALUES ('".$eartistID."', 'albums', '".$ealbums."', ".time().");";
+			} else {
+				$sql = "UPDATE `artist` SET `artistID` = '".$eartistID."', `json` = '".$ealbums."', `time` = '".time()."' WHERE `type` = 'albums' and `artistID` = '".$eartistID."';";
+				}
+			$result = mysql_query($sql);
+			if (!$result)
+				{
+					die('Could not execute query: ' . mysql_error());
+				}
+			return $albums;
+		} else {
+			$sql = "SELECT json FROM `artist` WHERE type = 'albums' and artistID = '".$eartistID."'";
+			$result = mysql_query($sql);
+			if (!$result)
+				{
+					die('Could not execute query: ' . mysql_error());
+				}
+			$albums = mysql_fetch_array($result);
+			return $albums['0'];
+		}
+	} else {
+		$albums = callRemote("artist.getAlbums", array('artistID' => $artistID, 'limit' => 100));
+		return $albums;
+	}
+	
 }
 
-function artistGetSongs($songID)
+function artistGetSongs($artistID)
 {
-	$songs = callRemote("artist.getSongs", array('songID' => $songID, 'limit' => 100));
-	return $songs;
+	if ($GLOBALS['cache'])
+	{
+		$eartistID = mysql_real_escape_string($artistID);
+		$sql = "SELECT time FROM `artist` WHERE type = 'songs' and artistID = '".$eartistID."'";
+		$result = mysql_query($sql);
+		if (!$result)
+			{
+				die('Could not execute query: ' . mysql_error());
+			}
+		$time = mysql_fetch_array($result);
+		if ((time() - $time['0'] > $GLOBALS['ctime'] and $GLOBALS['crtype'] = "PHP") or (mysql_num_rows($result) == 0))
+		{
+			$songs = callRemote("artist.getSongs", array('artistID' => $artistID, 'limit' => 100));
+			$esongs = mysql_real_escape_string($songs);
+			if (mysql_num_rows($result) == 0)
+			{
+				$sql = "INSERT INTO `artist` (`artistID`, `type`, `json`, `time`) VALUES ('".$eartistID."', 'songs', '".$esongs."', ".time().");";
+			} else {
+				$sql = "UPDATE `artist` SET `artistID` = '".$eartistID."', `json` = '".$esongs."', `time` = '".time()."' WHERE `type` = 'songs' and `artistID` = '".$eartistID."';";
+				}
+			$result = mysql_query($sql);
+			if (!$result)
+				{
+					die('Could not execute query: ' . mysql_error());
+				}
+			return $songs;
+		} else {
+			$sql = "SELECT json FROM `artist` WHERE type = 'songs' and artistID = '".$eartistID."'";
+			$result = mysql_query($sql);
+			if (!$result)
+				{
+					die('Could not execute query: ' . mysql_error());
+				}
+			$songs = mysql_fetch_array($result);
+			return $songs['0'];
+		}
+	} else {
+		$songs = callRemote("artist.getSongs", array('artistID' => $artistID, 'limit' => 100));
+		return $songs;
+	}
 }
 
 // Album Functions
 function albumGetSongs($albumID)
 {
-	$songs = callRemote("album.getSongs", array('albumID' => $albumID, 'limit' => 100));
-	return $songs;
+	if ($GLOBALS['cache'])
+	{
+		$ealbumID = mysql_real_escape_string($albumID);
+		$sql = "SELECT time FROM `album` WHERE albumID = '".$ealbumID."'";
+		$result = mysql_query($sql);
+		if (!$result)
+			{
+				die('Could not execute query: ' . mysql_error());
+			}
+		$time = mysql_fetch_array($result);
+		if ((time() - $time['0'] > $GLOBALS['ctime'] and $GLOBALS['crtype'] = "PHP") or (mysql_num_rows($result) == 0))
+		{
+			$songs = callRemote("album.getSongs", array('albumID' => $albumID, 'limit' => 100));
+			$esongs = mysql_real_escape_string($songs);
+			if (mysql_num_rows($result) == 0)
+			{
+				$sql = "INSERT INTO `album` (`albumID`, `json`, `time`) VALUES ('".$ealbumID."', '".$esongs."', ".time().");";
+			} else {
+				$sql = "UPDATE `album` SET `albumID` = '".$ealbumID."', `json` = '".$esongs."', `time` = '".time()."' WHERE `albumID` = '".$ealbumID."';";
+				}
+			$result = mysql_query($sql);
+			if (!$result)
+				{
+					die('Could not execute query: ' . mysql_error());
+				}
+			return $songs;
+		} else {
+			$sql = "SELECT json FROM `album` WHERE albumID = '".$ealbumID."'";
+			$result = mysql_query($sql);
+			if (!$result)
+				{
+					die('Could not execute query: ' . mysql_error());
+				}
+			$songs = mysql_fetch_array($result);
+			return $songs['0'];
+		}
+	} else {
+		$songs = callRemote("album.getSongs", array('albumID' => $albumID, 'limit' => 100));
+		return $songs;
+	}
 }
 
 
