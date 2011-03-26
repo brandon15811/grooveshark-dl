@@ -7,26 +7,29 @@ if ($_SESSION['loggedin']) {
 ?>
 <?php
 if (isset($_POST['userone']) and isset($_POST['passtwo'])) {
-$user = $_POST['userone'];
-$pass = $_POST['passtwo'];
-$userID = login($user, $pass);
-
-$userID = json_decode($userID, true);
-if (@$userID['fault']['code'] == 32) {
-    echo "Wrong password";
-} elseif (@$userID['fault']['code'] == 4096) {
-    echo "Wrong Username";
-} elseif (isset($userID['fault'])) {
-    echo "Unknown error";
-} else {
-   	$_SESSION['loggedin'] = true;
-   	$userID = $userID['result']['userID'];
-	// echo $userID;
-	$_SESSION['userID'] = $userID;
-	$file1 = str_replace("/login.php", "", $_SERVER['PHP_SELF']);
-	header("Location: http://".$_SERVER['HTTP_HOST'].$file1."/index.php");
-	exit;
-}
+	if (empty($_POST['userone']) or empty($_POST['passtwo']))
+	{
+		echo "Username and/or Password missing";
+	} else {
+		$user = $_POST['userone'];
+		$pass = $_POST['passtwo'];
+		$userID = authenticateUser($user, $pass);
+		$userID = json_decode($userID, true);
+		if (@$userID['errors']['0']['code'] == 200) {
+			echo "Wrong Username";
+		} elseif (@$userID['result']['UserID'] == 0) {
+			echo "Wrong Username and/or Password";
+		} elseif (isset($userID['errors'])) {
+			echo "Unknown error";
+		} else {
+			$_SESSION['loggedin'] = true;
+			$userID = $userID['result']['UserID'];
+			$_SESSION['userID'] = $userID;
+			$file1 = str_replace("/login.php", "", $_SERVER['PHP_SELF']);
+			header("Location: http://".$_SERVER['HTTP_HOST'].$file1."/index.php");
+			exit;
+		}
+	}
 }
 ?>
 <html>

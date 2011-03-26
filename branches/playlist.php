@@ -8,35 +8,37 @@ if (@!$_SESSION['loggedin']) {
 	echo "<br>Please login to see playlists";
 	exit;
 }
-$listlistdata = userGetPlaylists($_SESSION['userID']);
+$listlistdata = getUserPlaylists($_SESSION['sessionID']);
 $playlistlist = json_decode($listlistdata, true);
 #echo $songlist[result][Songs][SongName][0];
 echo "Here are your playlists";
 echo "<br><br>";
-foreach($playlistlist['result']["playlists"] as $vall) {
+/*echo "<pre>";
+print_r($playlistlist);
+echo "</pre>";*/
+foreach($playlistlist['result'] as $vall) {
 	#$formmvalue = str_shuffle($val[Name]);
 	#$formvalue = str_replace(" ", "", "$formmvalue");
 	#echo "Song:".$val["songName"]."<br><br>".
 	#"Artist:".$val["artistName"]."<br><br>";
-	echo "<a href=playlist.php?id=".$vall["playlistID"].">".$vall['playlistName']."</a><br><br>";
+	echo "<a href=playlist.php?id=".$vall["PlaylistID"].">".$vall['Name']."</a><br><br>";
 }
 if (!isset($_GET['id'])) {
 	exit;
 }
-foreach($playlistlist['result']['playlists'] as $vval) {
-	if ($vval['playlistID'] == $_GET['id']) {
-		$listname = $vval['playlistName'];
-		
+foreach($playlistlist['result'] as $vval) {
+	if ($vval['PlaylistID'] == $_GET['id']) {
+		$listname = $vval['Name'];		
 	}
 }
-$listdata = playlistGetSongs($_GET['id']);
+$listdata = getPlaylistSongs($_GET['id']);
 $playlist = json_decode($listdata, true);
-echo "Playlist "."\"".$listname."\""." has ".$playlist['result']['pager']['totalCount']." songs<br><br>";
-foreach($playlist['result']['songs'] as $val) {
-    echo "Song:".$val['songName']."<br>";
-    echo "Artist: <a href=artist.php?artistid=".$val['artistID'].">".$val['artistName']."</a><br>";
-	echo "Album: <a href=album.php?albumid=".$val['albumID'].">".$val['albumName']."</a><br>";
-	echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
+echo "Playlist "."\"".$listname."\""."<br><br>";
+foreach($playlist['result'] as $val) {
+    echo "Song:".$val['SongName']."<br>";
+    echo "Artist: <a href=artist.php?artistid=".$val['ArtistID'].">".$val['ArtistName']."</a><br>";
+	echo "Album: <a href=album.php?albumid=".$val['AlbumID'].">".$val['AlbumName']."</a><br>";
+	echo "<a href=stream.php?songid=".$val["SongID"].">Play</a><br><br><br>";
 }
 ?>
 <!-- Start 1FreeCounter.com code -->

@@ -1,5 +1,4 @@
 <?php
-$time_start = microtime(true);
 #ssession_start();
 include 'newexec.php';
 include "header.php";
@@ -45,27 +44,24 @@ switch($gettype) {
 		}
 		break;*/
 	default:
-		$popularsongdata = popularGetSongs();
+		$popularsongdata = getPopularSongsToday();
 		$songlist = json_decode($popularsongdata, true);
 		#echo $songlist[result][Songs][SongName][0];
 		echo "<br>";
 		foreach($songlist["result"]["songs"] as $val) {
 			#$formmvalue = str_shuffle($val[Name]);
 			#$formvalue = str_replace(" ", "", "$formmvalue");
-			echo "Song:".$val["songName"]."<br>";
-			echo "Artist: <a href=artist.php?artistid=".$val['artistID'].">".$val['artistName']."</a><br>";
-			echo "Album: <a href=album.php?albumid=".$val['albumID'].">".$val['albumName']."</a><br>";
+			echo "Song:".$val["SongName"]."<br>";
+			echo "Artist: <a href=artist.php?artistid=".$val['ArtistID'].">".$val['ArtistName']."</a><br>";
+			echo "Album: <a href=album.php?albumid=".$val['AlbumID'].">".$val['AlbumName']."</a><br>";
 			#$streamjson = streamKey($val[SongID]);
 			#$streamdata = json_decode($streamjson, true);
 			#$buttonurl = $streamdata[result][result][streamServer];
 			#$buttonkey = $streamdata[result][result][streamKey];
-			echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
+			echo "<a href=stream.php?songid=".$val["SongID"].">Play</a><br><br><br>";
 		}
 		break;
 	}
-$time_end = microtime(true);
-$time = $time_end - $time_start;
-echo $time;
 ?>
 <!-- Start 1FreeCounter.com code -->
   

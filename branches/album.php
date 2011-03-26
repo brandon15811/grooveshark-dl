@@ -3,13 +3,13 @@ session_start();
 include 'newexec.php';
 include "header.php";
 if (isset($_GET['albumid'])) {
-$json = albumGetSongs($_GET['albumid']);
+$json = getAlbumSongsEx($_GET['albumid']);
 $jsona = json_decode($json, true);
 
 $albumClass = $apiClass->getPackage($auth, 'album', $config);
 $methodVars = array(
-	'artist' => $jsona['result']['songs']['0']['artistName'],
-	'album' => $jsona['result']['songs']['0']['albumName']
+	'artist' => $jsona['result']['songs']['0']['ArtistName'],
+	'album' => $jsona['result']['songs']['0']['AlbumName']
 );
 	/*$methodVars = array(
 	'artist' => 'Cher',
@@ -26,11 +26,13 @@ else {
 }
 }
 
-
+/*echo "<pre>";
+print_r($jsona);
+echo "</pre>";*/
 foreach ($jsona['result']['songs'] as $val) {
-echo "Song: <a href=stream.php?songid=".$val['songID'].">".$val['songName']."</a><br>";
-echo "Artist: <a href=artist.php?artistid=".$val['artistID'].">".$val['artistName']."</a><br>";
-echo "Album: <a href=album.php?albumid=".$val['albumID'].">".$val['albumName']."</a><br>";
+echo "Song: <a href=stream.php?songid=".$val['SongID'].">".$val['SongName']."</a><br>";
+echo "Artist: <a href=artist.php?artistid=".$val['ArtistID'].">".$val['ArtistName']."</a><br>";
+echo "Album: <a href=album.php?albumid=".$val['AlbumID'].">".$val['AlbumName']."</a><br>";
 echo "<br>";
 }
 ?>

@@ -3,11 +3,11 @@ session_start();
 include 'newexec.php';
 include "header.php";
 if (isset($_GET['artistid'])) {
-$json = artistGetAlbums($_GET['artistid']);
+$json = getArtistAlbums($_GET['artistid']);
 $jsona = json_decode($json, true);
 
 $artistClass = $apiClass->getPackage($auth, 'artist', $config);
-$methodVars = array('artist' => $jsona['result']['albums']['0']['artistName']);
+$methodVars = array('artist' => $jsona['result']['albums']['0']['ArtistName']);
 if ( $artist = $artistClass->getInfo($methodVars) ) {
 	echo "<img src=".$artist['image']['extralarge'].">";
 	echo "<br><br>";
@@ -19,10 +19,12 @@ else {
 }
 
 
-
-foreach ($jsona['result']['albums'] as $val) {
-echo "Artist: <a href=artist.php?artistid=".$val['artistID'].">".$val['artistName']."</a><br>";
-echo "Album: <a href=album.php?albumid=".$val['albumID'].">".$val['albumName']."</a><br>";
+/*echo "<pre>";
+print_r($jsona);
+echo "</pre>";*/
+foreach ($jsona['result']['0']['albums'] as $val) {
+echo "Artist: <a href=artist.php?artistid=".$val['ArtistID'].">".$val['ArtistName']."</a><br>";
+echo "Album: <a href=album.php?albumid=".$val['AlbumID'].">".$val['AlbumName']."</a><br>";
 echo "<br>";
 }
 }

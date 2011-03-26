@@ -19,7 +19,7 @@ if (isset($_GET['name'])) {
 	#$session = $_SESSION['sessionid'];
 	switch($gettype) {
 		case "artists":
-			$searchartistdata = searchArtists($_GET['name']);
+			$searchartistdata =getArtistSearchResults($_GET['name']);
 			$artistlist = json_decode($searchartistdata, true);
 			#echo $songlist[result][Songs][SongName][0];
 			echo "<br>";
@@ -27,35 +27,35 @@ if (isset($_GET['name'])) {
 				#$formmvalue = str_shuffle($val[Name]);
 				#$formvalue = str_replace(" ", "", "$formmvalue");
 				#echo "Song:".$val["songName"]."<br><br>".
-				echo "Artist: <a href=artist.php?artistid=".$val['artistID'].">".$val['artistName']."</a><br>";
+				echo "Artist: <a href=artist.php?artistid=".$val['ArtistID'].">".$val['ArtistName']."</a><br>";
 			}
 			break;
 		case "albums":
-			$searchalbumdata = searchAlbums($_GET['name']);
+			$searchalbumdata = getAlbumSearchResults($_GET['name']);
 			$albumlist = json_decode($searchalbumdata, true);
 			#echo $songlist[result][Songs][SongName][0];
 			echo "<br>";
 			foreach($albumlist["result"]["albums"] as $val) {
 				#$formmvalue = str_shuffle($val[Name]);
 				#$formvalue = str_replace(" ", "", "$formmvalue");
-				echo "Artist: <a href=artist.php?artistid=".$val['artistID'].">".$val['artistName']."</a><br>";
-				echo "Album: <a href=album.php?albumid=".$val['albumID'].">".$val['albumName']."</a><br><br>";
+				echo "Artist: <a href=artist.php?artistid=".$val['ArtistID'].">".$val['ArtistName']."</a><br>";
+				echo "Album: <a href=album.php?albumid=".$val['AlbumID'].">".$val['AlbumName']."</a><br><br>";
 				#echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
 			}
 			break;
 		case "songs":
 			if ($_GET['type'] !== "albums" and $_GET['type'] !== "artists") {
-			$searchsongdata = searchSongs($_GET['name']);
+			$searchsongdata = getSongSearchResultsEx($_GET['name']);
 			$songlist = json_decode($searchsongdata, true);
 			#echo $songlist[result][Songs][SongName][0];
 			echo "<br>";
 			foreach($songlist["result"]["songs"] as $val) {
 				#$formmvalue = str_shuffle($val[Name]);
 				#$formvalue = str_replace(" ", "", "$formmvalue");
-				echo "Song:".$val["songName"]."<br>";
-				echo "Artist: <a href=artist.php?artistid=".$val['artistID'].">".$val['artistName']."</a><br>";
-				echo "Album: <a href=album.php?albumid=".$val['albumID'].">".$val['albumName']."</a><br>";
-				echo "<a href=stream.php?songid=".$val["songID"].">Play</a><br><br><br>";
+				echo "Song:".$val["SongName"]."<br>";
+				echo "Artist: <a href=artist.php?artistid=".$val['ArtistID'].">".$val['ArtistName']."</a><br>";
+				echo "Album: <a href=album.php?albumid=".$val['AlbumID'].">".$val['AlbumName']."</a><br>";
+				echo "<a href=stream.php?songid=".$val["SongID"].">Play</a><br><br><br>";
 				}
 			}
 			break;
