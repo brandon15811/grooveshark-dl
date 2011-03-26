@@ -49,34 +49,34 @@ if (@!$_SESSION['loggedin']) {
 	echo "<br>Please login to see playlists";
 	exit;
 }
-$listlistdata = userGetPlaylists($_SESSION['userID']);
+$listlistdata = getUserPlaylists($_SESSION['sessionID']);
 $playlistlist = json_decode($listlistdata, true);
 #echo $songlist[result][Songs][SongName][0];
 //echo "Here are your playlists";
 //echo "<br><br>";
-foreach($playlistlist['result']["playlists"] as $vall) {
-		echo "<li class='menu'><a href='playlist.php?id=".$vall['playlistID']."'>
-	<img alt='list' src='thumbs/music.png' /><span class='name'>".$vall['playlistName']."</span><span class='arrow'></span></a></li>";
+foreach($playlistlist['result'] as $vall) {
+		echo "<li class='menu'><a href='playlist.php?id=".$vall['PlaylistID']."'>
+	<img alt='list' src='thumbs/music.png' /><span class='name'>".$vall['Name']."</span><span class='arrow'></span></a></li>";
 }
 echo "</ul>";
 if (!isset($_GET['id'])) {
 	exit;
 }
-foreach($playlistlist['result']['playlists'] as $vval) {
-	if ($vval['playlistID'] == $_GET['id']) {
-		$listname = $vval['playlistName'];
+foreach($playlistlist['result'] as $vval) {
+	if ($vval['PlaylistID'] == $_GET['id']) {
+		$listname = $vval['Name'];
 		
 	}
 }
-$listdata = playlistGetSongs($_GET['id']);
+$listdata = getPlaylistSongs($_GET['id']);
 $playlist = json_decode($listdata, true);
 echo '<span class="graytitle">';
-echo "Playlist "."\"".$listname."\""." has ".$playlist['result']['pager']['totalCount']." songs<br><br>";
+echo "Playlist "."\"".$listname."\""." songs<br><br>";
 echo '</span>
 	<ul class="pageitem">';
-foreach($playlist['result']['songs'] as $val) {
-	echo "<li class='menu'><a href='stream.php?songid=".$val['songID']."'>
-	<img alt='list' src='thumbs/music.png' /><span class='name'>".$val['songName']." by ".$val['artistName']."</span><span class='arrow'></span></a></li>";
+foreach($playlist['result'] as $val) {
+	echo "<li class='menu'><a href='stream.php?songid=".$val['SongID']."'>
+	<img alt='list' src='thumbs/music.png' /><span class='name'>".$val['SongName']." by ".$val['ArtistName']."</span><span class='arrow'></span></a></li>";
 }
 ?>
 

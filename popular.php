@@ -72,11 +72,11 @@ switch($gettype) {
 	default:
 		echo '<span class="graytitle">Popular Songs</span>
 		<ul class="pageitem">';
-		$popularsongdata = popularGetSongs();
+		$popularsongdata = getPopularSongsToday();
 		$songlist = json_decode($popularsongdata, true);
 		foreach($songlist["result"]["songs"] as $val) {
-			echo "<li class='menu'><a href='stream.php?songid=".$val['songID']."'>
-	<img alt='list' src='thumbs/music.png' /><span class='name'>".$val['songName']." by ".$val['artistName']."</span><span class='arrow'></span></a></li>";
+			echo "<li class='menu'><a href='stream.php?songid=".$val['SongID']."'>
+	<img alt='list' src='thumbs/music.png' /><span class='name'>".$val['SongName']." by ".$val['ArtistName']."</span><span class='arrow'></span></a></li>";
 		}
 		break;
 	}

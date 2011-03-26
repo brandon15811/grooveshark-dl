@@ -45,12 +45,12 @@ if ($_SESSION['loggedin']) {
 		<ul class="pageitem">
 <?php
 if (isset($_GET['name'])) {
-	$searchdata = searchSongs($_GET['name']);
+	/*$searchdata = getArtistSearchResults($_GET['name']);
 	$songlist = json_decode($searchdata, true);
-	foreach($songlist['result']['songs'] as $val) {
+	foreach($songlist['result']['artists'] as $val) {
 	/*echo "<li class='menu'><a href='stream.php?songid=".$val['songID']."'>
-	<img alt='list' src='thumbs/music.png' /><span class='name'>".$val['songName']." by ".$val['artistName']."</span><span class='arrow'></span></a></li>";*/
-	}
+	<img alt='list' src='thumbs/music.png' /><span class='name'>".$val['songName']." by ".$val['artistName']."</span><span class='arrow'></span></a></li>";
+	}*/
 	
 	
 	if (empty($_GET["type"])) {
@@ -60,33 +60,33 @@ if (isset($_GET['name'])) {
 	}
 	switch($gettype) {
 		case "artists":
-			$searchartistdata = searchArtists($_GET['name']);
+			$searchartistdata = getArtistSearchResults($_GET['name']);
 			$artistlist = json_decode($searchartistdata, true);
 			foreach($artistlist["result"]["artists"] as $val) {
-				echo "<li class='menu'><a href='artist.php?artistid=".$val['artistID']."'>
+				echo "<li class='menu'><a href='artist.php?artistid=".$val['ArtistID']."'>
 				<img alt='list' src='thumbs/music.png' /><span class='name'>"
-				.$val['artistName']."</span>
+				.$val['ArtistName']."</span>
 				<span class='arrow'></span></a></li>";
 			}
 			break;
 		case "albums":
-			$searchalbumdata = searchAlbums($_GET['name']);
+			$searchalbumdata = getAlbumSearchResults($_GET['name']);
 			$albumlist = json_decode($searchalbumdata, true);
 			foreach($albumlist["result"]["albums"] as $val) {
-				echo "<li class='menu'><a href='album.php?albumid=".$val['albumID']."'>
+				echo "<li class='menu'><a href='album.php?albumid=".$val['AlbumID']."'>
 				<img alt='list' src='thumbs/music.png' /><span class='name'>"
-				.$val['albumName']." by ".$val['artistName']."</span>
+				.$val['AlbumName']." by ".$val['ArtistName']."</span>
 				<span class='arrow'></span></a></li>";
 			}
 			break;
 		case "songs":
 			if ($_GET['type'] !== "albums" and $_GET['type'] !== "artists") {
-			$searchsongdata = searchSongs($_GET['name']);
+			$searchsongdata = getSongSearchResultsEx($_GET['name']);
 			$songlist = json_decode($searchsongdata, true);
 			foreach($songlist["result"]["songs"] as $val) {
-				echo "<li class='menu'><a href='stream.php?songid=".$val['songID']."'>
+				echo "<li class='menu'><a href='stream.php?songid=".$val['SongID']."'>
 				<img alt='list' src='thumbs/music.png' /><span class='name'>"
-				.$val['songName']." by ".$val['artistName']."</span>
+				.$val['SongName']." by ".$val['ArtistName']."</span>
 				<span class='arrow'></span></a></li>";
 				}
 			}

@@ -43,7 +43,7 @@
 
 <?php
 if (isset($_GET['artistid'])) {
-$json = artistGetAlbums($_GET['artistid']);
+$json = getArtistAlbums($_GET['artistid']);
 $jsona = json_decode($json, true);
 
 $artistClass = $apiClass->getPackage($auth, 'artist', $config);
@@ -65,8 +65,8 @@ else {
 echo '<span class="graytitle">Songs</span>';
 echo '<ul class="pageitem">';
 foreach ($jsona['result']['albums'] as $val) {
-			echo "<li class='menu'><a href='album.php?albumid=".$val['albumID']."'>
-	<img alt='list' src='thumbs/music.png' /><span class='name'>".$val['albumName']." by ".$val['artistName']."</span><span class='arrow'></span></a></li>";
+			echo "<li class='menu'><a href='album.php?albumid=".$val['AlbumID']."'>
+	<img alt='list' src='thumbs/music.png' /><span class='name'>".$val['AlbumName']." by ".$val['ArtistName']."</span><span class='arrow'></span></a></li>";
 }
 }
 ?>

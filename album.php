@@ -44,7 +44,7 @@ if ($_SESSION['loggedin']) {
 <div id="content">
 <?php
 if (isset($_GET['albumid'])) {
-$json = albumGetSongs($_GET['albumid']);
+$json = getAlbumSongsEx($_GET['albumid']);
 $jsona = json_decode($json, true);
 
 $albumClass = $apiClass->getPackage($auth, 'album', $config);
@@ -77,8 +77,8 @@ else {
 
 <?php
 foreach ($jsona['result']['songs'] as $val) {
-			echo "<li class='menu'><a href='stream.php?songid=".$val['songID']."'>
-	<img alt='list' src='thumbs/music.png' /><span class='name'>".$val['songName']." by ".$val['artistName']."</span><span class='arrow'></span></a></li>";
+			echo "<li class='menu'><a href='stream.php?songid=".$val['SongID']."'>
+	<img alt='list' src='thumbs/music.png' /><span class='name'>".$val['SongName']." by ".$val['ArtistName']."</span><span class='arrow'></span></a></li>";
 }
 ?>
 </span>
