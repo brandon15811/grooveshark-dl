@@ -127,10 +127,12 @@ $sessionID = $jsona['sessionID'];
 Get Token
 */
 //exit;
-$tokenjsona = array ( 'header' => array ( 'session' => $sessionID, 'client' => 'gslite', 'clientRevision' => '20101012.37', 'uuid' => uuid(), ), 'privacy' => 1, 'method' => 'getCommunicationToken', 'parameters' => array ( 'secretKey' => md5($sessionID), ), 'country' => array ( 'CC4' => '2147483648', 'CC1' => '0', 'CC3' => '0', 'CC2' => '0', 'IPR' => '1021', 'ID' => '223', ), );
+//$tokenjsona = array ( 'header' => array ( 'session' => $sessionID, 'client' => 'gslite', 'clientRevision' => '20101012.37', 'uuid' => uuid(), ), 'privacy' => 1, 'method' => 'getCommunicationToken', 'parameters' => array ( 'secretKey' => md5($sessionID), ), 'country' => array ( 'CC4' => '2147483648', 'CC1' => '0', 'CC3' => '0', 'CC2' => '0', 'IPR' => '1021', 'ID' => '223', ), );
+$tokenjsona = array('header' => array('client' => 'htmlshark','clientRevision' => 20100831,'country' => array ('ID' => '65','CC1' => '0','CC2' => '1','CC3'   => '0','CC4'   => '0','IPR'   => '7854'),'uuid' => '9F42C62C-3DE7-4417-9251-79042A30217B'),'method' => 'getCommunicationToken','parameters' => array ( 'secretKey' => md5($sessionID)));
+
 $tokenjson = json_encode($tokenjsona);
 //echo $tokenjson;
-//$tokensock = fsockopen("cowbell.grooveshark.com", 80, $errno, $errstr, 30);
+$tokensock = fsockopen("cowbell.grooveshark.com", 80, $errno, $errstr, 30);
 if (!$tokensock) {
     //echo "$errstr ($errno)<br />\n";
 } else {
@@ -138,6 +140,7 @@ if (!$tokensock) {
 	$out .= "Accept-Encoding: identity\r\n";
 	$out .= "Content-Length: ".strlen($tokenjson)."\r\n";
 	$out .= "Host: cowbell.grooveshark.com\r\n";
+	$out .= "Cookie: PHPSESSID=$sessionID\r\n";
 	$out .= "User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12 (.NET CLR 3.5.30729)\r\n";
 	$out .= "Connection: close\r\n";
 	$out .= "Referer: http://listen.grooveshark.com/main.swf?cowbell=fe87233106a6cef919a1294fb2c3c05f\r\n";
@@ -150,6 +153,7 @@ if (!$tokensock) {
     fclose($tokensock);
 }
 		//echo $tokendata;
+		//echo "<br>";
 		$token = strstr($tokendata, "\r\n\r\n");
 		$token = json_decode($token, true);
 		$token = $token['result'];
@@ -173,7 +177,6 @@ echo "<br>";
 var_dump($streamtokensha1);
 echo "<br>";
 //echo $streamtoken;
-//exit;
 $streamjsona = array ( 'header' => array ( 'session' => $sessionID, 'token' => $streamtokensha1, 'client' => 'gslite', 'clientRevision' => '20101012.37', 'uuid' => uuid(), ), 'privacy' => 1, 'method' => 'getStreamKeyFromSongIDEx', 'parameters' => array ( 'mobile' => false, 'country' => array ( 'CC4' => '2147483648', 'CC1' => '0', 'CC3' => '0', 'CC2' => '0', 'IPR' => '1021', 'ID' => '223', ), 'songID' => $_GET['songid'], 'prefetch' => false, ), 'country' => array ( 'CC4' => '2147483648', 'CC1' => '0', 'CC3' => '0', 'CC2' => '0', 'IPR' => '1021', 'ID' => '223', ), );
 $streamjson = json_encode($streamjsona);
 echo $streamjson."<br>";
